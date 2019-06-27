@@ -68,22 +68,26 @@ public:
 
     explicit rmq_fast(std::vector<T>&& xs) : xs(xs), ix_min(build_ix_min(xs)) { }
 
+    template <typename InputIt>
+    rmq_fast(InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end), ix_min(build_ix_min(xs)) { }
+
     size_t size() const
     {
         return xs.size();
     }
 
+    bool empty() const
+    {
+        return xs.empty();
+    }
+
     size_t index(const size_t i_begin, const size_t i_end) const
     {
-        if(i_begin < 0 || i_end > xs.size()) {
-            throw std::logic_error("");
-        }
+        assert(i_begin >= 0);
+        assert(i_end <= xs.size());
+        assert(i_begin < i_end);
 
         const size_t l_range = i_end - i_begin;
-
-        if(!l_range) {
-            throw std::logic_error("");
-        }
 
         if(l_range == 1) {
             return i_begin;
