@@ -3,6 +3,7 @@
 #define SEGTREE_RMQ_FAST_HPP
 
 #include <vector>
+#include <cassert>
 #include <functional>
 
 #include "util.hpp"
