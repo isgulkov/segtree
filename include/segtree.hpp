@@ -1,6 +1,6 @@
 
-#ifndef SEGTREE_HPP
-#define SEGTREE_HPP
+#ifndef SEGTREE_SEGTREE_HPP
+#define SEGTREE_SEGTREE_HPP
 
 #include <memory>
 #include <stdexcept>
@@ -80,4 +80,4 @@ public:
     }
 };
 
-#endif //SEGTREE_HPP
+#endif //SEGTREE_SEGTREE_HPP

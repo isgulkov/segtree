@@ -1,6 +1,19 @@
 #include <iostream>
 
-#include "range_query.hpp"
+#include "rmq_fast.hpp"
+#include "rmq_compact.hpp"
+
+/**
+ * Range queries:
+ * - `rmq_fast`: O(1) query, O(nlogn) space, no update
+ * - `rmq_compact`: O(logn) query, O(n) space, O(logn) single update, O(logn) range update (TODO)
+ * - `rmq_cartesian`: O(1) query, O(n) space
+ * - `rq_group`: O(1) query, O(n) space, O(1) single update -- for group (invertible) operators
+ * - `rq_mode`: ...
+ * - `rq_median`: ...
+ *
+ * TODO: use `const T&` instead of T wherever possible depending on a tag
+ */
 
 int main(int argc, char** argv)
 {
