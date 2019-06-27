@@ -24,12 +24,23 @@ int main(int argc, char** argv)
         std::cout << std::endl;
     }
 
-    seg::rmq_fast<int> ys_min({ 10, 0, 0, 0, 10, 0,6,9,2,4 });
+    seg::rmq_fast<int> ys_min({ 10, 5, 7, 3, 5, 9, 6, 9, 2, 4 });
 
-    for(int i = 0; i < ys_min.size() - 1; i++) {
-        std::cout << ys_min.index(i, i + 1) << " ";
+    for(int l = 1; l <= ys_min.size(); l++) {
+        for(int i = 0; i <= ys_min.size() - l; i++) {
+            std::cout << ys_min.get(i, i + l) << " ";
+        }
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
 
     seg::rmq_fast<int> ept({});
+
+    seg::rmq_compact<int> zs_min({ 10, 5, 7, 3, 5, 9, 6, 9, 2, 4 });
+
+    for(int l = 1; l <= zs_min.size(); l++) {
+        for(int i = 0; i <= zs_min.size() - l; i++) {
+            std::cout << zs_min.get(i, i + l) << " ";
+        }
+        std::cout << std::endl;
+    }
 }
