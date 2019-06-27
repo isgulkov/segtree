@@ -15,11 +15,6 @@ class rmq_fast
 {
     // TODO: inherit from a specialized template type for configuration
 
-    static inline bool is_power2(const size_t x)
-    {
-        return (x & (x - 1)) == 0;
-    }
-
     const Compare less{ };
 
     const std::vector<T> xs;
@@ -79,7 +74,7 @@ public:
 
         const size_t i_pow = util::log2(l_range) - 1;
 
-        if(is_power2(l_range)) {
+        if(util::is_power2(l_range)) {
             return ix_min[i_pow][i_begin];
         }
 

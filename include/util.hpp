@@ -13,6 +13,11 @@ inline size_t log2(size_t x)
     return i;
 }
 
+inline bool is_power2(const size_t x)
+{
+    return (x & (x - 1)) == 0;
+}
+
 }
 
 #endif //SEGTREE_UTIL_HPP
