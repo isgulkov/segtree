@@ -3,15 +3,9 @@
 #include "rmq_fast.hpp"
 #include "rmq_compact.hpp"
 
+#include "models/rmq_slow.hpp"
+
 /**
- * Range queries:
- * - `rmq_fast`: O(1) query, O(nlogn) space, no update
- * - `rmq_compact`: O(logn) query, O(n) space, O(logn) single update, O(logn) range update (TODO)
- * - `rmq_cartesian`: O(1) query, O(n) space
- * - `rq_group`: O(1) query, O(n) space, O(1) single update -- for group (invertible) operators
- * - `rq_mode`: ...
- * - `rq_median`: ...
- *
  * TODO: use `const T&` instead of T wherever possible depending on a tag
  */
 
@@ -53,6 +47,15 @@ int main(int argc, char** argv)
     for(int l = 1; l <= zs_min.size(); l++) {
         for(int i = 0; i <= zs_min.size() - l; i++) {
             std::cout << zs_min.get(i, i + l) << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    seg::models::rmq_slow<int> ws_min({ 10, 5, 7, 3, 5, 9, 6, 9, 2, 4 });
+
+    for(int l = 1; l <= ws_min.size(); l++) {
+        for(int i = 0; i <= ws_min.size() - l; i++) {
+            std::cout << ws_min.get(i, i + l) << " ";
         }
         std::cout << std::endl;
     }
