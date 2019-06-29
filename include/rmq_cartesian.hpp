@@ -16,9 +16,9 @@ namespace seg {
 template<typename T, typename Compare = std::less<T>>
 class rmq_cartesian
 {
-    const Compare less{ };
+    Compare less{ };
 
-    const std::vector<T> xs;
+    std::vector<T> xs;
 
     template <typename InputIt>
     static size_t compute_tree_number(const InputIt it_begin, const InputIt it_end, size_t l_block)
@@ -51,6 +51,8 @@ class rmq_cartesian
     size_t l_block;
 
 public:
+    rmq_cartesian() = default;
+
     explicit rmq_cartesian(const std::vector<T>& xs) : rmq_cartesian(xs.begin(), xs.end()) { }
 
     template <typename InputIt>

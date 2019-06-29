@@ -8,16 +8,23 @@
 #include "rmq_cartesian.hpp"
 
 // TODO: consider dropping this crap in favour of Catch2?
+// TODO: check if move and copy assignments work
+
+TEST(RmqCompact, Empty) {
+    EXPECT_TRUE(seg::rmq_compact<int>().empty());
+}
 
 TEST(RmqFast, Empty) {
     EXPECT_TRUE(seg::rmq_fast<int>().empty());
 }
 
+TEST(RmqCartesian, Empty) {
+    EXPECT_TRUE(seg::rmq_cartesian<int>().empty());
+}
+
 template<typename Rmq, typename RmqRef, typename T>
 void assert_against_reference(const std::vector<T>& xs)
 {
-    SCOPED_TRACE(typeid(T).name());
-
     RmqRef rmq_ref(xs);
     Rmq rmq(xs);
 

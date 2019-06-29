@@ -15,9 +15,7 @@ class rmq_fast
 {
     // TODO: inherit from a specialized template type for configuration?
 
-    // TODO: remove unnecessary `const` from fields in the other implementations (s.t. assignments work)
-
-    // TODO!: make this boy static, or something?
+    // TODO!: make this boy static, or something? (here and in the other RMQs)
     Compare less{ };
 
     std::vector<T> xs;

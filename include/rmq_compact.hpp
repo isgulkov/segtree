@@ -13,9 +13,9 @@ namespace seg {
 template<typename T, typename Compare = std::less<T>>
 class rmq_compact
 {
-    const Compare less{ };
+    Compare less{ };
 
-    const size_t n = 0;
+    size_t n = 0;
     std::vector<T> xs_min;
 
     static T build_xs_min(const typename std::vector<T>::const_iterator it_begin,
@@ -36,6 +36,8 @@ class rmq_compact
     }
 
 public:
+    rmq_compact() = default;
+
     explicit rmq_compact(const std::vector<T>& xs) : rmq_compact(xs.begin(), xs.end()) { }
 
     template <typename InputIt>
