@@ -45,8 +45,8 @@ class rmq_cartesian
         return x;
     }
 
-    rmq_fast<T> outer_rmq;
-    std::vector<rmq_fast<T>> inner_rmqs;
+    rmq_fast<T, Compare> outer_rmq;
+    std::vector<rmq_fast<T, Compare>> inner_rmqs;
 
     size_t l_block;
 
@@ -80,7 +80,7 @@ public:
                 }
             }
 
-            rmq_fast<T> brmq(it_begin + i_start, it_begin + i_end);
+            rmq_fast<T, Compare> brmq(it_begin + i_start, it_begin + i_end);
 
             block_mins.emplace_back(xs[i_start + brmq.index(0, l_block)]);
 
@@ -88,7 +88,7 @@ public:
             inner_rmqs.emplace_back(brmq);
         }
 
-        outer_rmq = rmq_fast<T>(block_mins);
+        outer_rmq = rmq_fast<T, Compare>(block_mins);
     }
 
 //    explicit rmq_cartesian(std::vector<T>&& xs) : xs(xs) { }
@@ -96,6 +96,11 @@ public:
     size_t size() const
     {
         return xs.size();
+    }
+
+    bool empty() const
+    {
+        return xs.empty();
     }
 
     size_t index(const size_t i_begin, const size_t i_end) const
