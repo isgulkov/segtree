@@ -46,10 +46,10 @@ public:
 
         build_xs_min(it_begin, it_end, xs_min, 0);
 
-        for(const T x : xs_min) {
-            std::cout << x << " ";
-        }
-        std::cout << std::endl;
+//        for(const T x : xs_min) {
+//            std::cout << x << " ";
+//        }
+//        std::cout << std::endl;
     }
 
     size_t size() const
@@ -79,6 +79,8 @@ private:
             return get(i_begin, i_end, i_mid, i_right, (i_node + 1) * 2);
         }
         else {
+            // TODO: tail-recursive implementation?
+
             const T l_min = get(i_begin, i_mid, i_left, i_mid, (i_node + 1) * 2 - 1);
             const T r_min = get(i_mid, i_end, i_mid, i_right, (i_node + 1) * 2);
 
