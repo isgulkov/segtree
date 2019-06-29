@@ -2,8 +2,9 @@
 
 #include "rmq_fast.hpp"
 #include "rmq_compact.hpp"
+#include "rmq_cartesian.hpp"
 
-#include "models/rmq_slow.hpp"
+#include "baseline/rmq_slow.hpp"
 
 /**
  * TODO: use `const T&` instead of T wherever possible depending on a tag
@@ -40,7 +41,7 @@ int main(int argc, char** argv)
         std::cout << std::endl;
     }
 
-    seg::rmq_fast<int> ept({});
+    seg::rmq_fast<int> ept(std::vector<int>{});
 
     seg::rmq_compact<int> zs_min({ 10, 5, 7, 3, 5, 9, 6, 9, 2, 4 });
 
@@ -56,6 +57,15 @@ int main(int argc, char** argv)
     for(int l = 1; l <= ws_min.size(); l++) {
         for(int i = 0; i <= ws_min.size() - l; i++) {
             std::cout << ws_min.get(i, i + l) << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    seg::rmq_cartesian<int> us_min({ 10, 5, 7, 3, 5, 9, 6, 9, 2, 4 });
+
+    for(int l = 1; l <= us_min.size(); l++) {
+        for(int i = 0; i <= us_min.size() - l; i++) {
+            std::cout << us_min.get(i, i + l) << " ";
         }
         std::cout << std::endl;
     }

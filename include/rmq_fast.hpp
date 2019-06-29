@@ -13,12 +13,15 @@ namespace seg {
 template<typename T, typename Compare = std::less<T>>
 class rmq_fast
 {
-    // TODO: inherit from a specialized template type for configuration
+    // TODO: inherit from a specialized template type for configuration?
 
-    const Compare less{ };
+    // TODO: remove unnecessary `const` from fields in the other implementations (s.t. assignments work)
 
-    const std::vector<T> xs;
-    const std::vector<std::vector<size_t>> ix_min;
+    // TODO!: make this boy static, or something?
+    Compare less{ };
+
+    std::vector<T> xs;
+    std::vector<std::vector<size_t>> ix_min;
 
     static std::vector<std::vector<size_t>> build_ix_min(const std::vector<T>& xs, const Compare less = Compare())
     {
@@ -43,6 +46,8 @@ class rmq_fast
     }
 
 public:
+    rmq_fast() = default;
+
     explicit rmq_fast(const std::vector<T>& xs) : xs(xs), ix_min(build_ix_min(xs)) { }
 
     explicit rmq_fast(std::vector<T>&& xs) : xs(xs), ix_min(build_ix_min(xs)) { }
