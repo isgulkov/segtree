@@ -9,7 +9,17 @@ add_executable(segtree main_segtree.cpp)
 add_executable(rmq_static main_rmq_static.cpp)
 add_executable(rq_group main_rq_group.cpp)
 
-# Benchmarks
+#### Tests ####
+
+add_subdirectory(vendor/googletest)
+enable_testing()
+
+add_executable(test_rmq test/rmq.cpp)
+target_link_libraries(test_rmq PRIVATE gtest gtest_main)
+
+add_test(rmq test_rmq)
+
+#### Benchmarks ####
 
 set(BENCHMARK_ENABLE_TESTING OFF)
 add_subdirectory(vendor/benchmark)
