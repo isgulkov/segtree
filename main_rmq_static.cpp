@@ -51,7 +51,7 @@ int main(int argc, char** argv)
         std::cout << std::endl;
     }
 
-    seg::models::rmq_slow<int> ws_min({ 10, 5, 7, 3, 5, 9, 6, 9, 2, 4 });
+    seg::baseline::rmq_slow<int> ws_min({ 10, 5, 7, 3, 5, 9, 6, 9, 2, 4 });
 
     for(int l = 1; l <= ws_min.size(); l++) {
         for(int i = 0; i <= ws_min.size() - l; i++) {

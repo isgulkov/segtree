@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 
-#include "models/rmq_slow.hpp"
+#include "baseline/rmq_slow.hpp"
 #include "rmq_fast.hpp"
 #include "rmq_compact.hpp"
 
@@ -24,7 +24,7 @@ void BM_RMQ_Bad(benchmark::State& state) {
     }
 }
 
-BENCHMARK_TEMPLATE(BM_RMQ_Bad, seg::models::rmq_slow<int>)->Range(64, 4 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_Bad, seg::baseline::rmq_slow<int>)->Range(64, 4 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RMQ_Bad, seg::rmq_compact<int>)->Range(64, 4 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RMQ_Bad, seg::rmq_fast<int>)->Range(64, 4 * 1024)->Unit(benchmark::kMillisecond);
 

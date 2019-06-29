@@ -6,7 +6,7 @@
 #include <cassert>
 #include <functional>
 
-namespace seg::models {
+namespace seg::baseline {
 
 template<typename T, typename Compare = std::less<T>>
 class rmq_slow
@@ -39,7 +39,7 @@ public:
         size_t i_min = i_begin;
 
         for(size_t i = i_begin + 1; i < i_end; i++) {
-            if(xs[i] < xs[i_min]) {
+            if(less(xs[i], xs[i_min])) {
                 i_min = i;
             }
         }
