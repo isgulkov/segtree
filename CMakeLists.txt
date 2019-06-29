@@ -7,6 +7,7 @@ include_directories(include/)
 
 add_executable(segtree main_segtree.cpp)
 add_executable(rmq_static main_rmq_static.cpp)
+add_executable(rq_group main_rq_group.cpp)
 
 # Benchmarks
 
