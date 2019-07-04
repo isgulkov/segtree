@@ -24,14 +24,14 @@ add_test(rmq test_rmq)
 set(BENCHMARK_ENABLE_TESTING OFF)
 add_subdirectory(vendor/benchmark)
 
-add_executable(bench_rmq_all benchmark/rmq_all.cpp)
-target_link_libraries(bench_rmq_all PRIVATE benchmark)
+add_executable(bm_rmq_all benchmark/rmq_all.cpp)
+target_link_libraries(bm_rmq_all PRIVATE benchmark)
 
-add_executable(bench_rmq_linear benchmark/rmq_linear.cpp)
-target_link_libraries(bench_rmq_linear PRIVATE benchmark)
+add_executable(bm_rmq_linear benchmark/rmq_linear.cpp)
+target_link_libraries(bm_rmq_linear PRIVATE benchmark)
 
-add_executable(bench_rmq_create benchmark/rmq_create.cpp)
-target_link_libraries(bench_rmq_create PRIVATE benchmark)
+add_executable(bm_rmq_create benchmark/rmq_create.cpp)
+target_link_libraries(bm_rmq_create PRIVATE benchmark)
 
-add_executable(bench_rq_group_all benchmark/rq_group_all.cpp)
-target_link_libraries(bench_rq_group_all PRIVATE benchmark)
+add_executable(bm_rq_group_linear benchmark/rq_group_linear.cpp)
+target_link_libraries(bm_rq_group_linear PRIVATE benchmark)
