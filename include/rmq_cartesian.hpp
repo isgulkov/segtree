@@ -48,7 +48,7 @@ class rmq_cartesian
     rmq_fast<T, Compare> outer_rmq;
     std::vector<rmq_fast<T, Compare>> inner_rmqs;
 
-    size_t l_block;
+    size_t l_block = 0;
 
 public:
     rmq_cartesian() = default;
@@ -59,10 +59,10 @@ public:
     rmq_cartesian(const InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end)
     {
         const size_t n = it_end - it_begin;
+
         l_block = std::max(size_t(1), util::log2(n) / 4);
 
         std::unordered_map<size_t, size_t> ix_inner_rmqs;
-
         std::vector<T> block_mins;
 
         for(size_t i_b = 0; i_b <= (n - 1) / l_block; i_b++) {
