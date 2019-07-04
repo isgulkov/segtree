@@ -38,7 +38,7 @@ class rmq_compact
 public:
     rmq_compact() = default;
 
-    explicit rmq_compact(const std::vector<T>& xs) : rmq_compact(xs.begin(), xs.end()) { }
+    explicit rmq_compact(const std::vector<T>& xs) : rmq_compact(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
     rmq_compact(InputIt it_begin, const InputIt it_end) : n(it_end - it_begin),

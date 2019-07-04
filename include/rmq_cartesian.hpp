@@ -53,7 +53,7 @@ class rmq_cartesian
 public:
     rmq_cartesian() = default;
 
-    explicit rmq_cartesian(const std::vector<T>& xs) : rmq_cartesian(xs.begin(), xs.end()) { }
+    explicit rmq_cartesian(const std::vector<T>& xs) : rmq_cartesian(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
     rmq_cartesian(const InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end)
@@ -110,6 +110,8 @@ public:
         assert(i_begin >= 0);
         assert(i_end <= xs.size());
         assert(i_begin < i_end);
+
+        // TODO!: this is really NOT constant time as it should be...
 
         const size_t ib_first = i_begin / l_block, ib_last = (i_end - 1) / l_block;
 
