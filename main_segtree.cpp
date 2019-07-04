@@ -1,32 +1,40 @@
 #include <iostream>
 
-#include "segtree.hpp"
+#include "baseline/segtree_slow.hpp"
+
+template<typename Segtree>
+void ept(const std::vector<int>& xs)
+{
+    Segtree tree(xs);
+
+    for(int i = 0; i < 10; i++) {
+        for(int j = i + 1; j < 11; j++) {
+            std::cout << tree.get(i, j) << '\t';
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+
+    for(int i = 0; i < 10; i++) {
+        tree.set(i, 2 * i);
+    }
+
+    for(int i = 0; i < 10; i++) {
+        for(int j = i + 1; j < 11; j++) {
+            std::cout << tree.get(i, j) << '\t';
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
 
 int main(int argc, char** argv)
 {
-    auto root = std::make_unique<segtree>(0, 10);
+    std::vector<int> xs(10);
 
     for(int i = 0; i < 10; i++) {
-        root->set(i, i);
+        xs[i] = i;
     }
 
-    for(int i = 0; i < 10; i++) {
-        for(int j = 1; j < 11; j++) {
-            std::cout << root->get_sum(i, j) << '\t';
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-
-    for(int i = 0; i < 10; i++) {
-        root->set(i, 2 * i);
-    }
-
-    for(int i = 0; i < 10; i++) {
-        for(int j = 1; j < 11; j++) {
-            std::cout << root->get_sum(i, j) << '\t';
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
+    ept<seg::baseline::segtree_slow<int>>(xs);
 }

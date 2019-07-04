@@ -13,6 +13,8 @@ namespace seg {
 template<typename T, typename Compare = std::less<T>>
 class rmq_compact
 {
+    // TODO!: rename into `segtree` or `segtree_min`, or something
+
     Compare less{ };
 
     size_t n = 0;
@@ -41,7 +43,8 @@ public:
     explicit rmq_compact(const std::vector<T>& xs) : rmq_compact(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
-    rmq_compact(InputIt it_begin, const InputIt it_end) : n(it_end - it_begin), xs_min(2 << (util::log2(n - 1) + 1))
+    rmq_compact(const InputIt it_begin, const InputIt it_end) : n(it_end - it_begin),
+                                                                xs_min(2 << (util::log2(n - 1) + 1))
     {
         // `xs_min` size is rounded up to the next power of two, where the tree would be saturated
 

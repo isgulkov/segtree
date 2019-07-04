@@ -29,3 +29,6 @@ target_link_libraries(bench_rmq_all PRIVATE benchmark)
 
 add_executable(bench_rmq_create benchmark/rmq_create.cpp)
 target_link_libraries(bench_rmq_create PRIVATE benchmark)
+
+add_executable(bench_rq_group_all benchmark/rq_group_all.cpp)
+target_link_libraries(bench_rq_group_all PRIVATE benchmark)
