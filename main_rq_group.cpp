@@ -1,15 +1,6 @@
 #include <iostream>
-#include <functional>
 
 #include "rq_group.hpp"
-
-struct negate {
-    constexpr negate() = default;
-
-    float operator()(float x) const {
-        return 1.0f / x;
-    }
-};
 
 int main(int argc, char** argv)
 {
@@ -36,7 +27,7 @@ int main(int argc, char** argv)
         ys.push_back(i);
     }
 
-    seg::rq_group<float, std::multiplies<>, std::divides<>> prod(ys);
+    seg::rq_group<float, seg::fx::multiplication<float>> prod(ys);
 
     for(int l = 1; l <= prod.size(); l++) {
         for(int i = 0; i <= prod.size() - l; i++) {

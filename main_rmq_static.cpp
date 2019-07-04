@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "rmq_fast.hpp"
-#include "rmq_compact.hpp"
 #include "rmq_cartesian.hpp"
+//#include "segtree_semi.hpp"
 
 #include "baseline/rmq_slow.hpp"
 
@@ -23,7 +23,7 @@ int main(int argc, char** argv)
         std::cout << std::endl;
     }
 
-    seg::rmq_fast<int, std::greater<>> xs_max(xs.begin(), xs.end());
+    seg::rmq_fast<int, seg::fx::greater<>> xs_max(xs.begin(), xs.end());
 
     for(int l = 1; l <= xs_max.size(); l++) {
         for(int i = 0; i <= xs_max.size() - l; i++) {

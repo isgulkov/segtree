@@ -4,15 +4,14 @@
 
 #include <vector>
 #include <cassert>
-#include <numeric>
+
+#include "functions.hpp"
 
 namespace seg::baseline {
 
-template<typename T, typename Add = std::plus<T>>
+template<typename T, typename Semi = fx::addition<T>>
 class semi_slow
 {
-    Add _add{ };
-
     std::vector<T> xs;
 
 public:
@@ -40,10 +39,12 @@ public:
         assert(i_end <= xs.size());
         assert(i_begin < i_end);
 
+        // TODO: consider returning zero (id) for empty ranges
+
         T result = xs[i_begin];
 
         for(size_t i = i_begin + 1; i != i_end; i++) {
-            result = _add(result, xs[i]);
+            result = Semi::add(result, xs[i]);
         }
 
         return result;

@@ -4,17 +4,15 @@
 
 #include <vector>
 #include <cassert>
-#include <functional>
 
+#include "functions.hpp"
 #include "util.hpp"
 
 namespace seg {
 
-template<typename T, typename Add = std::plus<T>>
+template<typename T, typename Semi = fx::addition<T>>
 class segtree_semi
 {
-    Add add{ };
-
     size_t n = 0;
     std::vector<T> xs_nodes;
 
@@ -30,7 +28,7 @@ class segtree_semi
         const T l_value = build_xs_min(it_begin, it_mid, (i_node + 1) * 2 - 1);
         const T r_value = build_xs_min(it_mid, it_end, (i_node + 1) * 2);
 
-        return xs_nodes[i_node] = add(l_value, r_value);
+        return xs_nodes[i_node] = Semi::add(l_value, r_value);
     }
 
 public:
@@ -79,7 +77,7 @@ private:
             const T l_value = get(i_begin, i_mid, i_left, i_mid, (i_node + 1) * 2 - 1);
             const T r_value = get(i_mid, i_end, i_mid, i_right, (i_node + 1) * 2);
 
-            return add(l_value, r_value);
+            return Semi::add(l_value, r_value);
         }
     }
 
@@ -115,7 +113,7 @@ private:
         const T& l_value = xs_nodes[(i_node + 1) * 2 - 1];
         const T& r_value = xs_nodes[(i_node + 1) * 2];
 
-        xs_nodes[i_node] = add(l_value, r_value);
+        xs_nodes[i_node] = Semi::add(l_value, r_value);
     }
 
 public:
@@ -128,26 +126,10 @@ public:
     }
 };
 
-namespace {
-
-template<typename T, typename Compare = std::less<T>>
-class _min_semi
+template<typename T, typename Compare = fx::less<T>>
+struct segtree_min : segtree_semi<T, fx::semi_min<T, Compare>>
 {
-    Compare less{ };
-
-public:
-    T operator()(const T& a, const T& b) const
-    {
-        return less(a, b) ? a : b;
-    }
-};
-
-}
-
-template<typename T, typename Compare = std::less<T>>
-struct segtree_min : segtree_semi<T, _min_semi<T, Compare>>
-{
-    using segtree_semi<T, _min_semi<T, Compare>>::segtree_semi;
+    using segtree_semi<T, fx::semi_min<T, Compare>>::segtree_semi;
 };
 
 }

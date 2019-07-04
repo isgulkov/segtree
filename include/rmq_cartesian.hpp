@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <cassert>
-#include <functional>
 
 #include <unordered_map> // TODO!: use a vector for this?
 
@@ -13,11 +12,9 @@
 
 namespace seg {
 
-template<typename T, typename Compare = std::less<T>>
+template<typename T, typename Compare = fx::less<T>>
 class rmq_cartesian
 {
-    Compare less{ };
-
     std::vector<T> xs;
 
     template <typename InputIt>
@@ -127,7 +124,7 @@ public:
         {
             const size_t j_min = ib_last * l_block + inner_rmqs[ib_last].index(0, jb_last);
 
-            if(less(xs[j_min], xs[i_min])) {
+            if(Compare::apply(xs[j_min], xs[i_min])) {
                 i_min = j_min;
             }
         }
@@ -141,7 +138,7 @@ public:
         {
             const size_t j_min = ib_middle * l_block + inner_rmqs[ib_middle].index(0, l_block);
 
-            if(less(xs[j_min], xs[i_min])) {
+            if(Compare::apply(xs[j_min], xs[i_min])) {
                 i_min = j_min;
             }
         }

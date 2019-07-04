@@ -1,4 +1,3 @@
-#include <functional>
 #include <type_traits>
 
 #include <gtest/gtest.h>
@@ -72,7 +71,7 @@ TEST(RqgStatic, AddRefFloat) {
 }
 
 TEST(RqgStatic, MulRefFloat) {
-    assert_against_reference<seg::rq_group<double, std::multiplies<>, std::divides<>>, seg::baseline::semi_slow<double, std::multiplies<>>, double>(zs);
+    assert_against_reference<seg::rq_group<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>, double>(zs);
 }
 
 
@@ -93,7 +92,7 @@ TEST(RqgSegtree, AddRefFloat) {
 }
 
 TEST(RqgSegtree, MulRefFloat) {
-    assert_against_reference<seg::segtree_semi<double, std::multiplies<>>, seg::baseline::semi_slow<double, std::multiplies<>>, double>(zs);
+    assert_against_reference<seg::segtree_semi<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>, double>(zs);
 }
 
 
@@ -113,10 +112,6 @@ TEST(RqgFenwick, AddRefFloat) {
     assert_against_reference<seg::fenwick_tree<double>, seg::baseline::semi_slow<double>, double>(zs);
 }
 
-struct _zero_double {
-    double operator()() const { return 1.0; }
-};
-
 TEST(RqgFenwick, MulRefFloat) {
-    assert_against_reference<seg::fenwick_tree<double, std::multiplies<>, std::divides<>, _zero_double>, seg::baseline::semi_slow<double, std::multiplies<>>, double>(zs);
+    assert_against_reference<seg::fenwick_tree<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>, double>(zs);
 }

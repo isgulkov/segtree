@@ -4,22 +4,18 @@
 
 #include <vector>
 #include <cassert>
-#include <functional>
+
+#include "functions.hpp"
 
 namespace seg {
 
-template<typename T, typename Add = std::plus<T>, typename Subtract = std::minus<T>>
+template<typename T, typename Group = fx::addition<T>>
 class rq_group
 {
-    // TODO: check that no runtime overhead is incurred by this generalisation over simple int sum
-
-    const Add add{ };
-    const Subtract subtract{ };
-
     const std::vector<T> vs;
 
     template <typename InputIt>
-    static std::vector<T> build_prefix_vs(InputIt it_begin, const InputIt it_end, const Add add = Add())
+    static std::vector<T> build_prefix_vs(InputIt it_begin, const InputIt it_end)
     {
         if(it_begin == it_end) {
             return {};
@@ -31,19 +27,19 @@ class rq_group
         vs.emplace_back(*it_begin++);
 
         while(it_begin != it_end) {
-            vs.emplace_back(add(vs.back(), *it_begin++));
+            vs.emplace_back(Group::add(vs.back(), *it_begin++));
         }
 
         return vs;
     }
 
-    static std::vector<T> build_prefix_vs(std::vector<T>&& xs, const Add add = Add())
+    static std::vector<T> build_prefix_vs(std::vector<T>&& xs)
     {
         // TODO: std::move doesn't have any effect here, right?
         auto vs = std::move(xs);
 
         for(size_t i = 1; i < vs.size(); i++) {
-            vs[i] = add(vs[i], vs[i - 1]);
+            vs[i] = Group::add(vs[i], vs[i - 1]);
         }
 
         return vs;
@@ -76,7 +72,7 @@ public:
         assert(i_begin < i_end);
 
         if(i_begin) {
-            return subtract(vs[i_end - 1], vs[i_begin - 1]);
+            return Group::subtract(vs[i_end - 1], vs[i_begin - 1]);
         }
         else {
             return vs[i_end - 1];

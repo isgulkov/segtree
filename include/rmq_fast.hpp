@@ -4,26 +4,22 @@
 
 #include <vector>
 #include <cassert>
-#include <functional>
 
+#include "functions.hpp"
 #include "util.hpp"
 
 namespace seg {
 
-template<typename T, typename Compare = std::less<T>>
+template<typename T, typename Compare = fx::less<T>>
 class rmq_fast
 {
     // TODO: inherit from a specialized template type for configuration?
-
-    // TODO!: make this boy static, or something? (here and in the other RMQs)
-    Compare less{ };
 
     std::vector<T> xs;
     std::vector<std::vector<size_t>> ix_min;
 
     template<typename InputIt>
-    static std::vector<std::vector<size_t>> build_ix_min(const InputIt it_begin, const InputIt it_end,
-                                                         const Compare less = Compare())
+    static std::vector<std::vector<size_t>> build_ix_min(const InputIt it_begin, const InputIt it_end)
     {
         const size_t n = it_end - it_begin;
 
@@ -40,7 +36,7 @@ class rmq_fast
                 const size_t i_half = i_pow ? ix_min[i_pow - 1][i_start] : i_start;
                 const size_t j_half = i_pow ? ix_min[i_pow - 1][i_start + l_range / 2] : i_start + 1;
 
-                ix_min[i_pow][i_start] = less(it_begin[i_half], it_begin[j_half]) ? i_half : j_half;
+                ix_min[i_pow][i_start] = Compare::apply(it_begin[i_half], it_begin[j_half]) ? i_half : j_half;
             }
         }
 
@@ -91,7 +87,7 @@ public:
         const size_t i_min = ix_min[i_pow][i_begin];
         const size_t j_min = ix_min[i_pow][i_begin + (l_range - (2U << i_pow))];
 
-        if(less(xs[i_min], xs[j_min])) {
+        if(Compare::apply(xs[i_min], xs[j_min])) {
             return i_min;
         }
         else {

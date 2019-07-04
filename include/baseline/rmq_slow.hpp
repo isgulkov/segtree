@@ -4,17 +4,14 @@
 
 #include <vector>
 #include <cassert>
-#include <functional>
+
+#include "functions.hpp"
 
 namespace seg::baseline {
 
-template<typename T, typename Compare = std::less<T>>
+template<typename T, typename Compare = fx::less<T>>
 class rmq_slow
 {
-    // TODO: inherit from a specialized template type for configuration
-
-    const Compare less{ };
-
     const std::vector<T> xs;
 
 public:
@@ -39,7 +36,7 @@ public:
         size_t i_min = i_begin;
 
         for(size_t i = i_begin + 1; i < i_end; i++) {
-            if(less(xs[i], xs[i_min])) {
+            if(Compare::apply(xs[i], xs[i_min])) {
                 i_min = i;
             }
         }
