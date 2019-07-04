@@ -27,10 +27,10 @@ class rmq_compact
             return xs_min[i_node] = *it_begin;
         }
 
-        const auto x_mid = it_begin + (it_end - it_begin + 1) / 2;
+        const InputIt it_mid = it_begin + (it_end - it_begin + 1) / 2;
 
-        const T l_min = build_xs_min(it_begin, x_mid, xs_min, (i_node + 1) * 2 - 1);
-        const T r_min = build_xs_min(x_mid, it_end, xs_min, (i_node + 1) * 2);
+        const T l_min = build_xs_min(it_begin, it_mid, xs_min, (i_node + 1) * 2 - 1);
+        const T r_min = build_xs_min(it_mid, it_end, xs_min, (i_node + 1) * 2);
 
         return xs_min[i_node] = less(l_min, r_min) ? l_min : r_min;
     }
@@ -41,17 +41,11 @@ public:
     explicit rmq_compact(const std::vector<T>& xs) : rmq_compact(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
-    rmq_compact(InputIt it_begin, const InputIt it_end) : n(it_end - it_begin),
-                                                          xs_min(2 << (util::log2((it_end - it_begin) - 1) + 1))
+    rmq_compact(InputIt it_begin, const InputIt it_end) : n(it_end - it_begin), xs_min(2 << (util::log2(n - 1) + 1))
     {
         // `xs_min` size is rounded up to the next power of two, where the tree would be saturated
 
         build_xs_min(it_begin, it_end, xs_min, 0);
-
-//        for(const T x : xs_min) {
-//            std::cout << x << " ";
-//        }
-//        std::cout << std::endl;
     }
 
     size_t size() const
