@@ -148,15 +148,9 @@ public:
 }
 
 template<typename T, typename Compare = std::less<T>>
-class segtree_min : public segtree_semi<T, MinSemi<T, Compare>>
+struct segtree_min : segtree_semi<T, MinSemi<T, Compare>>
 {
-public:
-    segtree_min() = default;
-
-    explicit segtree_min(const std::vector<T>& xs) : segtree_semi<T, MinSemi<T, Compare>>(xs.cbegin(), xs.cend()) { }
-
-    template <typename InputIt>
-    segtree_min(const InputIt it_begin, const InputIt it_end) : segtree_semi<T, MinSemi<T, Compare>>(it_begin, it_end) { }
+    using segtree_semi<T, MinSemi<T, Compare>>::segtree_semi;
 };
 
 }
