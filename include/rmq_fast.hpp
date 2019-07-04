@@ -21,22 +21,26 @@ class rmq_fast
     std::vector<T> xs;
     std::vector<std::vector<size_t>> ix_min;
 
-    static std::vector<std::vector<size_t>> build_ix_min(const std::vector<T>& xs, const Compare less = Compare())
+    template<typename InputIt>
+    static std::vector<std::vector<size_t>> build_ix_min(const InputIt it_begin, const InputIt it_end,
+                                                         const Compare less = Compare())
     {
-        std::vector<std::vector<size_t>> ix_min(util::log2(xs.size()));
+        const size_t n = it_end - it_begin;
+
+        std::vector<std::vector<size_t>> ix_min(util::log2(n));
 
         for(size_t i_pow = 0; i_pow < ix_min.size(); i_pow++) {
             const size_t l_range = 2U << i_pow;
 
             std::vector<size_t>& row = ix_min[i_pow];
 
-            row.resize(xs.size() - l_range + 1);
+            row.resize(n - l_range + 1);
 
             for(size_t i_start = 0; i_start < row.size(); i_start++) {
                 const size_t i_half = i_pow ? ix_min[i_pow - 1][i_start] : i_start;
                 const size_t j_half = i_pow ? ix_min[i_pow - 1][i_start + l_range / 2] : i_start + 1;
 
-                ix_min[i_pow][i_start] = less(xs[i_half], xs[j_half]) ? i_half : j_half;
+                ix_min[i_pow][i_start] = less(it_begin[i_half], it_begin[j_half]) ? i_half : j_half;
             }
         }
 
@@ -46,12 +50,13 @@ class rmq_fast
 public:
     rmq_fast() = default;
 
-    explicit rmq_fast(const std::vector<T>& xs) : xs(xs), ix_min(build_ix_min(xs)) { }
+    explicit rmq_fast(const std::vector<T>& xs) : xs(xs), ix_min(build_ix_min(xs.cbegin(), xs.cend())) { }
 
-    explicit rmq_fast(std::vector<T>&& xs) : xs(xs), ix_min(build_ix_min(xs)) { }
+    explicit rmq_fast(std::vector<T>&& xs) : xs(xs), ix_min(build_ix_min(xs.cbegin(), xs.cend())) { }
 
     template <typename InputIt>
-    rmq_fast(InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end), ix_min(build_ix_min(xs)) { }
+    rmq_fast(const InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end),
+                                                             ix_min(build_ix_min(it_begin, it_end)) { }
 
     size_t size() const
     {
@@ -68,6 +73,8 @@ public:
         assert(i_begin >= 0);
         assert(i_end <= xs.size());
         assert(i_begin < i_end);
+
+        // TODO: provide some guarantee as to which of several equal indices is returned (e.g. first)
 
         const size_t l_range = i_end - i_begin;
 
