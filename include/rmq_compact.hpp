@@ -18,8 +18,8 @@ class rmq_compact
     size_t n = 0;
     std::vector<T> xs_min;
 
-    static T build_xs_min(const typename std::vector<T>::const_iterator it_begin,
-                          const typename std::vector<T>::const_iterator it_end,
+    template <typename InputIt>
+    static T build_xs_min(const InputIt it_begin, const InputIt it_end,
                           std::vector<T>& xs_min, const size_t i_node,
                           const Compare less = Compare())
     {
