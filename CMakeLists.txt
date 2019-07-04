@@ -27,6 +27,9 @@ add_subdirectory(vendor/benchmark)
 add_executable(bench_rmq_all benchmark/rmq_all.cpp)
 target_link_libraries(bench_rmq_all PRIVATE benchmark)
 
+add_executable(bench_rmq_linear benchmark/rmq_linear.cpp)
+target_link_libraries(bench_rmq_linear PRIVATE benchmark)
+
 add_executable(bench_rmq_create benchmark/rmq_create.cpp)
 target_link_libraries(bench_rmq_create PRIVATE benchmark)
 

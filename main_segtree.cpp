@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "baseline/segtree_slow.hpp"
+#include "segtree_semi.hpp"
 
 template<typename Segtree>
 void ept(const std::vector<int>& xs)
@@ -37,4 +38,5 @@ int main(int argc, char** argv)
     }
 
     ept<seg::baseline::segtree_slow<int>>(xs);
+    ept<seg::segtree_semi<int>>(xs);
 }

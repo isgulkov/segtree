@@ -3,15 +3,15 @@
 #include <gtest/gtest.h>
 
 #include "baseline/rmq_slow.hpp"
-#include "rmq_compact.hpp"
 #include "rmq_fast.hpp"
 #include "rmq_cartesian.hpp"
+#include "segtree_semi.hpp"
 
 // TODO: consider dropping this crap in favour of Catch2?
 // TODO: check if move and copy assignments work
 
-TEST(RmqCompact, Empty) {
-    EXPECT_TRUE(seg::rmq_compact<int>().empty());
+TEST(RmqSegtree, Empty) {
+    EXPECT_TRUE(seg::segtree_min<int>().empty());
 }
 
 TEST(RmqFast, Empty) {
@@ -50,36 +50,36 @@ std::vector<double> zs = { 0.23562345900933712, 0.921194171139331, -0.0927100101
                            0.3723187193230091, -0.3749033717667052, 0.46787827703764706, -0.9965849031542593,
                            -0.5455637708111314, 0.9757643830812546, 0.9398363132695124 };
 
-TEST(RmqCompact, MinRefSmall) {
-    assert_against_reference<seg::rmq_compact<int>, seg::baseline::rmq_slow<int>, int>(xs_small);
+TEST(RmqSegtree, MinRefSmall) {
+    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>, int>(xs_small);
 }
 
-TEST(RmqCompact, MinRef01) {
-    assert_against_reference<seg::rmq_compact<int>, seg::baseline::rmq_slow<int>, int>(ys_small);
+TEST(RmqSegtree, MinRef01) {
+    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>, int>(ys_small);
 }
 
-TEST(RmqCompact, MinRefIncs) {
-    assert_against_reference<seg::rmq_compact<int>, seg::baseline::rmq_slow<int>, int>(xs_incs);
+TEST(RmqSegtree, MinRefIncs) {
+    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>, int>(xs_incs);
 }
 
-TEST(RmqCompact, MinRefFloat) {
-    assert_against_reference<seg::rmq_compact<double>, seg::baseline::rmq_slow<double>, double>(zs);
+TEST(RmqSegtree, MinRefFloat) {
+    assert_against_reference<seg::segtree_min<double>, seg::baseline::rmq_slow<double>, double>(zs);
 }
 
-TEST(RmqCompact, MaxRefSmall) {
-    assert_against_reference<seg::rmq_compact<int, std::greater<>>, seg::baseline::rmq_slow<int, std::greater<>>, int>(xs_small);
+TEST(RmqSegtree, MaxRefSmall) {
+    assert_against_reference<seg::segtree_min<int, std::greater<>>, seg::baseline::rmq_slow<int, std::greater<>>, int>(xs_small);
 }
 
-TEST(RmqCompact, MaxRef01) {
-    assert_against_reference<seg::rmq_compact<int, std::greater<>>, seg::baseline::rmq_slow<int, std::greater<>>, int>(ys_small);
+TEST(RmqSegtree, MaxRef01) {
+    assert_against_reference<seg::segtree_min<int, std::greater<>>, seg::baseline::rmq_slow<int, std::greater<>>, int>(ys_small);
 }
 
-TEST(RmqCompact, MaxRefIncs) {
-    assert_against_reference<seg::rmq_compact<int, std::greater<>>, seg::baseline::rmq_slow<int, std::greater<>>, int>(xs_incs);
+TEST(RmqSegtree, MaxRefIncs) {
+    assert_against_reference<seg::segtree_min<int, std::greater<>>, seg::baseline::rmq_slow<int, std::greater<>>, int>(xs_incs);
 }
 
-TEST(RmqCompact, MaxRefFloat) {
-    assert_against_reference<seg::rmq_compact<double, std::greater<>>, seg::baseline::rmq_slow<double, std::greater<>>, double>(zs);
+TEST(RmqSegtree, MaxRefFloat) {
+    assert_against_reference<seg::segtree_min<double, std::greater<>>, seg::baseline::rmq_slow<double, std::greater<>>, double>(zs);
 }
 
 TEST(RmqFast, MinRefSmall) {

@@ -4,8 +4,8 @@
 
 #include "baseline/rmq_slow.hpp"
 #include "rmq_fast.hpp"
-#include "rmq_compact.hpp"
 #include "rmq_cartesian.hpp"
+#include "segtree_semi.hpp"
 
 template<typename RMQ>
 void BM_RMQ_RandomCreate(benchmark::State& state) {
@@ -19,8 +19,8 @@ void BM_RMQ_RandomCreate(benchmark::State& state) {
 }
 
 BENCHMARK_TEMPLATE(BM_RMQ_RandomCreate, seg::baseline::rmq_slow<int>)->Range(1024, 256 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RMQ_RandomCreate, seg::rmq_compact<int>)->Range(1024, 256 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RMQ_RandomCreate, seg::rmq_fast<int>)->Range(1024, 256 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RMQ_RandomCreate, seg::rmq_cartesian<int>)->Range(1024, 256 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomCreate, seg::segtree_min<int>)->Range(1024, 256 * 1024)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
