@@ -134,7 +134,7 @@ public:
 namespace {
 
 template<typename T, typename Compare = std::less<T>>
-class MinSemi
+class _min_semi
 {
     Compare less{ };
 
@@ -148,9 +148,9 @@ public:
 }
 
 template<typename T, typename Compare = std::less<T>>
-struct segtree_min : segtree_semi<T, MinSemi<T, Compare>>
+struct segtree_min : segtree_semi<T, _min_semi<T, Compare>>
 {
-    using segtree_semi<T, MinSemi<T, Compare>>::segtree_semi;
+    using segtree_semi<T, _min_semi<T, Compare>>::segtree_semi;
 };
 
 }
