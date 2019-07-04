@@ -88,10 +88,7 @@ public:
     {
         assert(i_begin >= 0);
         assert(i_end <= n);
-
-        if(i_begin >= i_end) {
-            return T();
-        }
+        assert(i_begin < i_end);
 
         return get(i_begin, i_end, 0, n, 0);
     }
