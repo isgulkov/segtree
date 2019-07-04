@@ -17,6 +17,9 @@ enable_testing()
 add_executable(test_rmq test/rmq.cpp)
 target_link_libraries(test_rmq PRIVATE gtest gtest_main)
 
+add_executable(test_rq_group test/rq_group.cpp)
+target_link_libraries(test_rq_group PRIVATE gtest gtest_main)
+
 add_test(rmq test_rmq)
 
 #### Benchmarks ####

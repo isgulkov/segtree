@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "baseline/segtree_slow.hpp"
+#include "baseline/semi_slow.hpp"
 #include "segtree_semi.hpp"
 #include "fenwick_tree.hpp"
 
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
         xs[i] = i;
     }
 
-    ept<seg::baseline::segtree_slow<int>>(xs);
+    ept<seg::baseline::semi_slow<int>>(xs);
     ept<seg::segtree_semi<int>>(xs);
     ept<seg::fenwick_tree<int>>(xs);
 }

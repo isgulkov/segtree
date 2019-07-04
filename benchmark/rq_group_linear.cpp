@@ -2,7 +2,7 @@
 
 #include "bench_util.hpp"
 
-#include "baseline/segtree_slow.hpp"
+#include "baseline/semi_slow.hpp"
 #include "rq_group.hpp"
 #include "segtree_semi.hpp"
 #include "fenwick_tree.hpp"
@@ -28,7 +28,7 @@ void BM_RQGroup_RandomLinear(benchmark::State& state) {
     }
 }
 
-BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::baseline::segtree_slow<int>)->Range(256, 256 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::baseline::semi_slow<int>)->Range(256, 256 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::rq_group<int>)->Range(256, 256 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::segtree_semi<int>)->Range(256, 256 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::fenwick_tree<int>)->Range(256, 256 * 1024)->Unit(benchmark::kMillisecond);

@@ -50,6 +50,8 @@ class rq_group
     }
 
 public:
+    rq_group() = default;
+
     explicit rq_group(const std::vector<T>& xs) : rq_group(xs.begin(), xs.end()) { }
 
     template <typename InputIt>
@@ -62,14 +64,16 @@ public:
         return vs.size();
     }
 
+    bool empty() const
+    {
+        return vs.empty();
+    }
+
     T get(const size_t i_begin, const size_t i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= vs.size());
-
-        if(i_begin >= i_end) {
-            return T();
-        }
+        assert(i_begin < i_end);
 
         if(i_begin) {
             return subtract(vs[i_end - 1], vs[i_begin - 1]);

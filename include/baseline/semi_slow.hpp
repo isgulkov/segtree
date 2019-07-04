@@ -1,6 +1,6 @@
 
-#ifndef SEGTREE_SEGTREE_SLOW_HPP
-#define SEGTREE_SEGTREE_SLOW_HPP
+#ifndef SEGTREE_SEMI_SLOW_HPP
+#define SEGTREE_SEMI_SLOW_HPP
 
 #include <vector>
 #include <cassert>
@@ -8,18 +8,20 @@
 
 namespace seg::baseline {
 
-template<typename T>
-class segtree_slow
+template<typename T, typename Add = std::plus<T>>
+class semi_slow
 {
+    Add _add{ };
+
     std::vector<T> xs;
 
 public:
-    segtree_slow() = default;
+    semi_slow() = default;
 
-    explicit segtree_slow(const std::vector<T>& xs) : xs(xs) { }
+    explicit semi_slow(const std::vector<T>& xs) : xs(xs) { }
 
     template <typename InputIt>
-    segtree_slow(const InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end) { }
+    semi_slow(const InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end) { }
 
     size_t size() const
     {
@@ -38,7 +40,13 @@ public:
         assert(i_end <= xs.size());
         assert(i_begin < i_end);
 
-        return std::accumulate(xs.begin() + i_begin, xs.begin() + i_end, T());
+        T result = xs[i_begin];
+
+        for(size_t i = i_begin + 1; i != i_end; i++) {
+            result = _add(result, xs[i]);
+        }
+
+        return result;
     }
 
     void set(const size_t i, const T& x)
@@ -52,4 +60,4 @@ public:
 
 }
 
-#endif //SEGTREE_SEGTREE_SLOW_HPP
+#endif //SEGTREE_SEMI_SLOW_HPP

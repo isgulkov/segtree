@@ -8,11 +8,21 @@
 
 namespace seg {
 
-template<typename T, typename Add = std::plus<T>, typename Subtract = std::minus<T>>
+namespace {
+
+template<typename T>
+struct _zero {
+    T operator()() const { return T(); }
+};
+
+}
+
+template<typename T, typename Add = std::plus<T>, typename Subtract = std::minus<T>, typename Id = _zero<T>>
 class fenwick_tree
 {
     Add _add{ };
-    const Subtract _subtract{ };
+    Subtract _subtract{ };
+    Id _id{ };
 
     std::vector<T> xs;
 
@@ -22,7 +32,7 @@ public:
     explicit fenwick_tree(const std::vector<T>& xs) : fenwick_tree(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
-    fenwick_tree(const InputIt it_begin, const InputIt it_end) : xs(it_end - it_begin, 0)
+    fenwick_tree(const InputIt it_begin, const InputIt it_end) : xs(it_end - it_begin, _id())
     {
         for(size_t i = 0; i < xs.size(); i++) {
             add(i, it_begin[i]);
@@ -43,7 +53,7 @@ private:
     T get_upto(size_t i_end) const
     {
         if(!i_end) {
-            return T();
+            return _id();
         }
 
         T result = xs[i_end - 1];
@@ -70,16 +80,16 @@ public:
         return get(i, i + 1);
     }
 
-    void add(const size_t i_x, const T& delta)
+    void add(size_t i, const T& delta)
     {
-        for(size_t j = i_x; j < xs.size(); j = j | (j + 1)) {
-            xs[j] = _add(xs[j], delta);
+        for(; i < xs.size(); i = i | (i + 1)) {
+            xs[i] = _add(xs[i], delta);
         }
     }
 
-    void set(const size_t i_x, const T& x)
+    void set(const size_t i, const T& x)
     {
-        add(i_x, _subtract(x, operator[](i_x)));
+        add(i, _subtract(x, operator[](i)));
     }
 };
 
