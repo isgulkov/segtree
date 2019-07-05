@@ -26,11 +26,30 @@ struct greater<void> {
     template<typename T> static bool apply(const T& a, const T& b) { return a > b; }
 };
 
+// Identity elements
+
+template<typename T>
+struct id_max {
+    static T id() { return std::numeric_limits<T>::max(); }
+};
+
+template<typename T>
+struct id_lowest {
+    static T id() { return std::numeric_limits<T>::lowest(); }
+};
+
 // Semigroups
 
-template<typename T, typename Compare = fx::less<T>>
+template<typename T, typename Compare = less<T>, typename Id = id_max<T>>
 struct semi_min {
     static T add(const T& a, const T& b) { return Compare::apply(a, b) ? a : b; }
+    static T id() { return Id::id(); }
+};
+
+template<typename T, typename Compare = greater<T>, typename Id = id_lowest<T>>
+struct semi_max {
+    static T add(const T& a, const T& b) { return Compare::apply(a, b) ? a : b; }
+    static T id() { return Id::id(); }
 };
 
 // Groups

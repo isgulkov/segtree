@@ -16,33 +16,31 @@ class segtree_semi
     size_t n = 0;
     std::vector<T> xs_nodes;
 
-    template <typename InputIt>
-    T build_xs_min(const InputIt it_begin, const InputIt it_end, const size_t i_node)
-    {
-        if(it_begin + 1 == it_end) {
-            return xs_nodes[i_node] = *it_begin;
-        }
-
-        const InputIt it_mid = it_begin + (it_end - it_begin + 1) / 2;
-
-        const T l_value = build_xs_min(it_begin, it_mid, (i_node + 1) * 2 - 1);
-        const T r_value = build_xs_min(it_mid, it_end, (i_node + 1) * 2);
-
-        return xs_nodes[i_node] = Semi::add(l_value, r_value);
-    }
-
 public:
     segtree_semi() = default;
+
+//    TODO: use this?
+//    std::vector<T>&& xs
 
     explicit segtree_semi(const std::vector<T>& xs) : segtree_semi(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
-    segtree_semi(const InputIt it_begin, const InputIt it_end) : n(it_end - it_begin),
-                                                                xs_nodes(2 << (util::log2(n - 1) + 1))
+    segtree_semi(InputIt it_begin, const InputIt it_end) : n(it_end - it_begin),
+                                                                xs_nodes(2 << (util::log2(n - 1) + 1), Semi::id())
     {
         // `xs_min` size is rounded up to the next power of two, where the tree would be saturated
+        // TODO!: only make it as large as necessary
+        // TODO!: initialization with id() seems to be unnecessary
 
-        build_xs_min(it_begin, it_end, 0);
+        // TODO: make `xs_nodes` 0-based, perhaps extract some of the index work, comment the traversals
+
+        for(size_t i = 0; i < n; i++) {
+            xs_nodes[n + i] = *it_begin++;
+        }
+
+        for(size_t i = n - 1; i != 0; i--) {
+            xs_nodes[i] = Semi::add(xs_nodes[2 * i], xs_nodes[2 * i + 1]);
+        }
     }
 
     size_t size() const
@@ -55,81 +53,84 @@ public:
         return n == 0;
     }
 
-private:
-    T get(const size_t i_begin, const size_t i_end,
-          const size_t i_left, const size_t i_right, const size_t i_node) const
-    {
-        if(i_begin == i_left && i_end == i_right) {
-            return xs_nodes[i_node];
-        }
-
-        const size_t i_mid = i_left + (i_right - i_left + 1) / 2;
-
-        if(i_end <= i_mid) {
-            return get(i_begin, i_end, i_left, i_mid, (i_node + 1) * 2 - 1);
-        }
-        else if(i_mid <= i_begin) {
-            return get(i_begin, i_end, i_mid, i_right, (i_node + 1) * 2);
-        }
-        else {
-            // TODO: tail-recursive implementation?
-
-            const T l_value = get(i_begin, i_mid, i_left, i_mid, (i_node + 1) * 2 - 1);
-            const T r_value = get(i_mid, i_end, i_mid, i_right, (i_node + 1) * 2);
-
-            return Semi::add(l_value, r_value);
-        }
-    }
-
-public:
     T get(const size_t i_begin, const size_t i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= n);
         assert(i_begin < i_end);
 
-        return get(i_begin, i_end, 0, n, 0);
+        /**
+         * This non-recursive implementation of segtree query is ~3–5 times faster for me, so the index-fucking involved
+         * is worth it. More info:
+         *   - https://codeforces.com/blog/entry/1256
+         *   - https://codeforces.com/blog/entry/18051
+         */
+
+        /**
+         * The tree traversal starts from `i_begin`, `i_end` single-element leaves, goes up the tree towards a final
+         * common ancestor, processing partial contributions from fully-included nodes.
+         */
+
+        T result = Semi::id();
+
+        for(size_t l = i_begin + n, r = i_end + n; l < r; l /= 2, r /= 2) {
+            /**
+             * For each node, one of two options if chosen:
+             *   - if the parent is completely within/outside segment, proceed to it;
+             *   - otherwise, proceed to the parent's inner sibling, after adding node's contribution to `result`.
+             *
+             * Due to how the tree is built, indices of left children are odd, of right children -- even.
+             */
+
+            if(l % 2) {
+                /**
+                 * `l` is a right child, so its parent isn't fully included in the segment.
+                 */
+
+                result = Semi::add(result, xs_nodes[l++]);
+            }
+
+            if(r % 2) {
+                /**
+                 * `r` is a right child, so its parent isn't fully outside the segment.
+                 */
+
+                result = Semi::add(result, xs_nodes[--r]);
+            }
+        }
+
+        return result;
     }
 
-private:
-    void update(const size_t i, const T& x, const size_t i_left, const size_t i_right, const size_t i_node)
-    {
-        if(i_left == i && i_right == i + 1) {
-            xs_nodes[i_node] = x;
-
-            return;
-        }
-
-        const size_t i_mid = i_left + (i_right - i_left + 1) / 2;
-
-        if(i < i_mid) {
-            update(i, x, i_left, i_mid, (i_node + 1) * 2 - 1);
-        }
-        else {
-            update(i, x, i_mid, i_right, (i_node + 1) * 2);
-        }
-
-        // TODO: use return values
-        const T& l_value = xs_nodes[(i_node + 1) * 2 - 1];
-        const T& r_value = xs_nodes[(i_node + 1) * 2];
-
-        xs_nodes[i_node] = Semi::add(l_value, r_value);
-    }
-
-public:
-    void set(const size_t i, const T& x)
+    void set(size_t i, const T& x)
     {
         assert(i >= 0);
         assert(i < n);
 
-        update(i, x, 0, n, 0);
+        /**
+         * Ascend from `i`th single element leaf (index `i + n`) up to the root, updating values
+         */
+
+        for(xs_nodes[i += n] = x; i > 1; i /= 2) {
+            /**
+             * Use values of the node and its sibling to update their parent
+             */
+
+            xs_nodes[i / 2] = Semi::add(xs_nodes[i], xs_nodes[i ^ 1U]);
+        }
     }
 };
 
-template<typename T, typename Compare = fx::less<T>>
-struct segtree_min : segtree_semi<T, fx::semi_min<T, Compare>>
+template<typename T>
+struct segtree_min : segtree_semi<T, fx::semi_min<T>>
 {
-    using segtree_semi<T, fx::semi_min<T, Compare>>::segtree_semi;
+    using segtree_semi<T, fx::semi_min<T>>::segtree_semi;
+};
+
+template<typename T>
+struct segtree_max : segtree_semi<T, fx::semi_max<T>>
+{
+    using segtree_semi<T, fx::semi_max<T>>::segtree_semi;
 };
 
 }
