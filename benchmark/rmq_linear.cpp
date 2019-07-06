@@ -28,9 +28,9 @@ void BM_RMQ_RandomLinear(benchmark::State& state) {
     }
 }
 
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::baseline::rmq_slow<int>)->Range(64, 64 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::rmq_fast<int>)->Range(64, 64 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::rmq_cartesian<int>)->Range(64, 64 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::segtree_min<int>)->Range(64, 64 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::baseline::rmq_slow<int>)->Range(64, 32 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::rmq_fast<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::rmq_cartesian<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::segtree_min<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
