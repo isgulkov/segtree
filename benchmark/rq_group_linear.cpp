@@ -9,7 +9,7 @@
 
 template<typename RQ>
 void BM_RQGroup_RandomLinear(benchmark::State& state) {
-    std::vector<int> xs = random_ints(state.range(0));
+    std::vector<int> xs = random_ints_bin(state.range(0));
 
     RQ rq(xs);
 

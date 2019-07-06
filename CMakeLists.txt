@@ -25,6 +25,9 @@ target_link_libraries(test_rq_group PRIVATE gtest gtest_main)
 add_executable(test_util_math test/util_math.cpp)
 target_link_libraries(test_util_math PRIVATE gtest gtest_main)
 
+add_executable(test_rq_mode test/rq_mode.cpp)
+target_link_libraries(test_rq_mode PRIVATE gtest gtest_main)
+
 #### Benchmarks ####
 
 set(BENCHMARK_ENABLE_TESTING OFF)
@@ -44,3 +47,6 @@ target_link_libraries(bm_rq_group_linear PRIVATE benchmark)
 
 add_executable(bm_sqrt_ceil benchmark/sqrt_ceil.cpp)
 target_link_libraries(bm_sqrt_ceil PRIVATE benchmark)
+
+add_executable(bm_rq_mode_linear benchmark/rq_mode_linear.cpp)
+target_link_libraries(bm_rq_mode_linear PRIVATE benchmark)

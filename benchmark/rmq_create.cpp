@@ -9,7 +9,7 @@
 
 template<typename RMQ>
 void BM_RMQ_RandomCreate(benchmark::State& state) {
-    std::vector<int> xs = random_ints(state.range(0));
+    std::vector<int> xs = random_ints_bin(state.range(0));
 
     for(auto _ : state) {
         RMQ rmq(xs);
