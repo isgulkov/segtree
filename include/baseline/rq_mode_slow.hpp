@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <cassert>
+#include <optional>
 
 #include <unordered_map>
 
@@ -35,7 +36,12 @@ public:
         return xs.empty();
     }
 
-    T get(const size_t i_begin, const size_t i_end) const
+    /**
+     * Returns {@code std::nullopt} if no unique mode exists
+     *
+     * TODO: another method that returns one of the values
+     */
+    std::optional<T> get(const size_t i_begin, const size_t i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= xs.size());
@@ -43,7 +49,7 @@ public:
 
         std::unordered_map<T, size_t> counts;
 
-        // If several identical modes exist, return the smallest one
+        bool is_unique = false;
         T v_max;
 
         for(size_t n_max = 0, i = i_begin; i != i_end; i++) {
@@ -53,12 +59,18 @@ public:
             const size_t n = ++counts[v];
 
             if(n > n_max) {
+                is_unique = true;
+
                 v_max = v;
                 n_max = n;
             }
-            else if(n == n_max && v < v_max) {
-                v_max = v;
+            else if(n == n_max) {
+                is_unique = false;
             }
+        }
+
+        if(!is_unique) {
+            return std::nullopt;
         }
 
         return v_max;
