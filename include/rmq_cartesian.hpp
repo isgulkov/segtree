@@ -8,7 +8,7 @@
 #include <unordered_map> // TODO!: use a vector for this?
 
 #include "rmq_fast.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 
 namespace seg {
 

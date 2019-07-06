@@ -5,7 +5,7 @@
 #include <vector>
 #include <cassert>
 
-#include "functions.hpp"
+#include "util/functions.hpp"
 
 namespace seg::baseline {
 

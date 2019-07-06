@@ -5,8 +5,8 @@
 #include <vector>
 #include <cassert>
 
-#include "functions.hpp"
-#include "util.hpp"
+#include "util/functions.hpp"
+#include "util/util.hpp"
 
 namespace seg {
 
