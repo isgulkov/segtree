@@ -9,6 +9,7 @@ include_directories(include/)
 add_executable(segtree main_segtree.cpp)
 add_executable(rmq_static main_rmq_static.cpp)
 add_executable(rq_group main_rq_group.cpp)
+add_executable(mode main_mode.cpp)
 
 #### Tests ####
 
@@ -20,8 +21,6 @@ target_link_libraries(test_rmq PRIVATE gtest gtest_main)
 
 add_executable(test_rq_group test/rq_group.cpp)
 target_link_libraries(test_rq_group PRIVATE gtest gtest_main)
-
-add_test(rmq test_rmq)
 
 #### Benchmarks ####
 
