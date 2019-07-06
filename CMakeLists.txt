@@ -22,6 +22,9 @@ target_link_libraries(test_rmq PRIVATE gtest gtest_main)
 add_executable(test_rq_group test/rq_group.cpp)
 target_link_libraries(test_rq_group PRIVATE gtest gtest_main)
 
+add_executable(test_util_math test/util_math.cpp)
+target_link_libraries(test_util_math PRIVATE gtest gtest_main)
+
 #### Benchmarks ####
 
 set(BENCHMARK_ENABLE_TESTING OFF)
