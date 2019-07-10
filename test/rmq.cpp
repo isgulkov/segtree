@@ -30,7 +30,7 @@ void assert_against_reference(const std::vector<T>& xs)
     EXPECT_FALSE(rmq.empty());
 
     for(int i = 0; i < xs.size(); i++) {
-        for(int j = i + 1; j < xs.size(); j++) {
+        for(int j = i + 1; j <= xs.size(); j++) {
             ASSERT_EQ(rmq.get(i, j), rmq_ref.get(i, j)) << "(i, j) = (" << i << ", " << j << ")";
         }
     }

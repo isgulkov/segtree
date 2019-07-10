@@ -24,7 +24,7 @@ void assert_against_reference(const std::vector<T>& xs)
     EXPECT_FALSE(rq.empty());
 
     for(int i = 0; i < xs.size(); i++) {
-        for(int j = i + 1; j < xs.size(); j++) {
+        for(int j = i + 1; j <= xs.size(); j++) {
             const auto v = rq.get(i, j);
             const auto v_ref = rq_ref.get(i, j);
 

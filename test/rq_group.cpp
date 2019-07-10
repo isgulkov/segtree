@@ -29,7 +29,7 @@ void assert_against_reference(const std::vector<T>& xs)
     EXPECT_FALSE(rq.empty());
 
     for(int i = 0; i < xs.size(); i++) {
-        for(int j = i + 1; j < xs.size(); j++) {
+        for(int j = i + 1; j <= xs.size(); j++) {
             if(std::is_floating_point<T>::value) {
                 ASSERT_FLOAT_EQ(rq.get(i, j), rq_ref.get(i, j)) << "(i, j) = (" << i << ", " << j << ")";
             }
