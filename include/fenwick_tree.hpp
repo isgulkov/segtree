@@ -6,6 +6,7 @@
 #include <cassert>
 
 #include "util/functions.hpp"
+#include "util/_elem_handle.hpp"
 
 namespace seg {
 
@@ -65,11 +66,19 @@ public:
 
     T operator[](const size_t i) const
     {
+        assert(i >= 0);
+        assert(i < xs.size());
+
         return get(i, i + 1);
     }
 
     void add(size_t i, const T& delta)
     {
+        assert(i >= 0);
+        assert(i < xs.size());
+
+        // TODO: use this directly in elem_handle's operator+=?
+
         for(; i < xs.size(); i = i | (i + 1)) {
             xs[i] = Group::add(xs[i], delta);
         }
@@ -77,7 +86,22 @@ public:
 
     void set(const size_t i, const T& x)
     {
+        assert(i >= 0);
+        assert(i < xs.size());
+
         add(i, Group::subtract(x, operator[](i)));
+    }
+
+private:
+    using elem_handle = util::_elem_handle<fenwick_tree<T, Group>, T>;
+
+public:
+    elem_handle operator[](const size_t i)
+    {
+        assert(i >= 0);
+        assert(i < xs.size());
+
+        return { *this, i };
     }
 };
 

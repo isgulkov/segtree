@@ -34,10 +34,26 @@ public:
         }
     }
 
-    void set(const size_t i, const T& x)
+    void set_call(const size_t i, const T& x)
     {
         rq.set(i, x);
         rq_ref.set(i, x);
+
+        assert_against_reference();
+    }
+
+    void set_handle(const size_t i, const T& x)
+    {
+        rq[i] = x;
+        rq_ref[i] = x;
+
+        assert_against_reference();
+    }
+
+    void add_handle(const size_t i, const T& x)
+    {
+        rq[i] += x;
+        rq_ref[i] += x;
 
         assert_against_reference();
     }
@@ -72,7 +88,23 @@ TEST(PointFenwick, AddRefSet) {
     update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
 
     for(const auto& p : xs_updates) {
-        tester.set(p.first, p.second);
+        tester.set_call(p.first, p.second);
+    }
+}
+
+TEST(PointFenwick, AddRefHandleAssign) {
+    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+
+    for(const auto& p : xs_updates) {
+        tester.set_handle(p.first, p.second);
+    }
+}
+
+TEST(PointFenwick, AddRefHandleAdd) {
+    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+
+    for(const auto& p : xs_updates) {
+        tester.add_handle(p.first, p.second);
     }
 }
 
@@ -80,6 +112,22 @@ TEST(PointSegtree, AddRefSet) {
     update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
 
     for(const auto& p : xs_updates) {
-        tester.set(p.first, p.second);
+        tester.set_call(p.first, p.second);
+    }
+}
+
+TEST(PointSegtree, AddRefHandleAssign) {
+    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+
+    for(const auto& p : xs_updates) {
+        tester.set_handle(p.first, p.second);
+    }
+}
+
+TEST(PointSegtree, AddRefHandleAdd) {
+    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+
+    for(const auto& p : xs_updates) {
+        tester.add_handle(p.first, p.second);
     }
 }

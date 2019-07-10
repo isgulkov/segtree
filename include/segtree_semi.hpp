@@ -7,6 +7,7 @@
 
 #include "util/functions.hpp"
 #include "util/util.hpp"
+#include "util/_elem_handle.hpp"
 
 namespace seg {
 
@@ -102,6 +103,15 @@ public:
         return result;
     }
 
+    T operator[](const size_t i) const {
+        assert(i >= 0);
+        assert(i < n);
+
+        // TODO: just return const& to `xs_nodes[n + i]` in the non-lazy version (which is what this is)
+
+        return get(i, i + 1);
+    }
+
     void set(size_t i, const T& x)
     {
         assert(i >= 0);
@@ -118,6 +128,18 @@ public:
 
             xs_nodes[i / 2] = Semi::add(xs_nodes[i], xs_nodes[i ^ 1U]);
         }
+    }
+
+private:
+    using elem_handle = util::_elem_handle<segtree_semi<T, Semi>, T>;
+
+public:
+    elem_handle operator[](const size_t i)
+    {
+        assert(i >= 0);
+        assert(i < n);
+
+        return { *this, i };
     }
 };
 

@@ -51,6 +51,14 @@ public:
         return result;
     }
 
+    const T& operator[](const size_t i) const
+    {
+        assert(i >= 0);
+        assert(i < xs.size());
+
+        return xs[i];
+    }
+
     void set(const size_t i, const T& x)
     {
         assert(i >= 0);
@@ -63,14 +71,6 @@ private:
     using elem_handle = util::_elem_handle<semi_slow<T, Semi>, T>;
 
 public:
-    const T& operator[](const size_t i) const
-    {
-        assert(i >= 0);
-        assert(i < xs.size());
-
-        return xs[i];
-    }
-
     elem_handle operator[](const size_t i)
     {
         assert(i >= 0);
