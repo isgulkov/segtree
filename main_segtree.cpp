@@ -34,6 +34,18 @@ void ept(const std::vector<int>& xs)
     std::cout << std::endl;
 }
 
+template<typename Segtree>
+void print_some(const Segtree& tree)
+{
+    for(int i = 0; i < tree.size(); i++) {
+        for(int j = i + 1; j <= tree.size(); j++) {
+            std::cout << tree.get(i, j) << '\t';
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 int main(int argc, char** argv)
 {
     std::vector<int> xs(9);
@@ -44,7 +56,31 @@ int main(int argc, char** argv)
 
 //    xs = { 1, 2, 4, 7, 12, 20, 33, 54 };
 
-    ept<seg::baseline::semi_slow<int>>(xs);
-    ept<seg::segtree_semi<int>>(xs);
-    ept<seg::fenwick_tree<int>>(xs);
+//    ept<seg::baseline::semi_slow<int>>(xs);
+//    ept<seg::segtree_semi<int>>(xs);
+//    ept<seg::fenwick_tree<int>>(xs);
+
+    seg::baseline::semi_slow<int> hui(xs);
+
+    print_some(hui);
+
+    hui[5] = 10;
+
+    print_some(hui);
+
+    hui[5] = hui[5] - 10;
+
+    print_some(hui);
+
+    hui[5] += 7;
+
+    print_some(hui);
+
+    hui[5] *= 10;
+
+    print_some(hui);
+
+    hui.update(4, [](auto x) { return x - 5; });
+
+    print_some(hui);
 }

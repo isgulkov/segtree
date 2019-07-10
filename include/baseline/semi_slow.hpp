@@ -6,6 +6,7 @@
 #include <cassert>
 
 #include "util/functions.hpp"
+#include "util/_elem_handle.hpp"
 
 namespace seg::baseline {
 
@@ -56,6 +57,41 @@ public:
         assert(i < xs.size());
 
         xs[i] = x;
+    }
+
+private:
+    using elem_handle = util::_elem_handle<semi_slow<T, Semi>, T>;
+
+public:
+    const T& operator[](const size_t i) const
+    {
+        assert(i >= 0);
+        assert(i < xs.size());
+
+        return xs[i];
+    }
+
+    elem_handle operator[](const size_t i)
+    {
+        assert(i >= 0);
+        assert(i < xs.size());
+
+        return { *this, i };
+    }
+
+    void update(const size_t i, std::function<T(const T&)> f)
+    {
+        /**
+         * TODO: benchmark the three point update interfaces:
+         *  - set(i, EXPR(get(i)));
+         *  - modify(i, std::function);
+         *  - assignment to an `elem_handle`.
+         */
+
+        assert(i >= 0);
+        assert(i < xs.size());
+
+        xs[i] = f(xs[i]);
     }
 };
 
