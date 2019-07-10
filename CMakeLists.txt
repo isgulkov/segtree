@@ -51,5 +51,5 @@ target_link_libraries(bm_rq_group_linear PRIVATE benchmark)
 add_executable(bm_sqrt_ceil benchmark/sqrt_ceil.cpp)
 target_link_libraries(bm_sqrt_ceil PRIVATE benchmark)
 
-add_executable(bm_rq_mode_linear benchmark/rq_mode_linear.cpp)
-target_link_libraries(bm_rq_mode_linear PRIVATE benchmark)
+add_executable(bm_rq_mode_constant benchmark/rq_mode_constant.cpp)
+target_link_libraries(bm_rq_mode_constant PRIVATE benchmark)
