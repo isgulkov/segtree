@@ -2,25 +2,37 @@
 #ifndef SEGTREE_UTIL_HPP
 #define SEGTREE_UTIL_HPP
 
+#include <type_traits>
+#include <cassert>
+
 namespace seg::util {
 
-inline size_t log2(size_t x)
+template<typename Int, typename = std::enable_if_t<std::is_integral_v<Int>>>
+inline Int log2(Int x)
 {
-    size_t i;
+    assert(x >= 0);
+
+    Int i;
 
     for(i = 0, x >>= 1U; x; x >>= 1U, i++) { }
 
     return i;
 }
 
-inline bool is_power2(const size_t x)
+template<typename Int, typename = std::enable_if_t<std::is_integral_v<Int>>>
+inline bool is_power2(const Int x)
 {
+    assert(x >= 0);
+
     return (x & (x - 1)) == 0;
 }
 
-size_t sqrt_ceil(const size_t x)
+template<typename Int, typename = std::enable_if_t<std::is_integral_v<Int>>>
+Int sqrt_ceil(const Int x)
 {
-    size_t l = 0, r = std::min(x, 1UL << (sizeof(size_t) * 4));
+    assert(x >= 0);
+
+    size_t l = 0, r = std::min(x, Int(1) << (sizeof(Int) * 4));
 
     while(l < r) {
         const size_t m = l + (r - l) / 2;
