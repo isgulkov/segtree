@@ -17,8 +17,6 @@ class _elem_handle
      *  (here and other places, like the tests)
      */
 
-    using elem_handle = _elem_handle<Parent, T>;
-
 public:
     _elem_handle(Parent& parent, const size_t i) : parent(parent), i(i) { }
 
@@ -32,59 +30,59 @@ public:
         return const_cast<const Parent&>(parent)[i];
     }
 
-    elem_handle& operator=(const T& value)
+    _elem_handle& operator=(const T& value)
     {
         parent.set(i, value);
 
         return *this;
     }
 
-    elem_handle& operator+=(const T& value)
+    _elem_handle& operator+=(const T& value)
     {
         return operator=(*this + value);
     }
 
-    elem_handle& operator-=(const T& value)
+    _elem_handle& operator-=(const T& value)
     {
         return operator=(*this - value);
     }
 
-    elem_handle& operator*=(const T& value)
+    _elem_handle& operator*=(const T& value)
     {
         return operator=(*this * value);
     }
 
-    elem_handle& operator/=(const T& value)
+    _elem_handle& operator/=(const T& value)
     {
         return operator=(*this / value);
     }
 
-    elem_handle& operator%=(const T& value)
+    _elem_handle& operator%=(const T& value)
     {
         return operator=(*this % value);
     }
 
-    elem_handle& operator&=(const T& value)
+    _elem_handle& operator&=(const T& value)
     {
         return operator=(*this & value);
     }
 
-    elem_handle& operator|=(const T& value)
+    _elem_handle& operator|=(const T& value)
     {
         return operator=(*this | value);
     }
 
-    elem_handle& operator^=(const T& value)
+    _elem_handle& operator^=(const T& value)
     {
         return operator=(*this ^ value);
     }
 
-    elem_handle& operator<<=(const T& value)
+    _elem_handle& operator<<=(const T& value)
     {
         return operator=(*this << value);
     }
 
-    elem_handle& operator>>=(const T& value)
+    _elem_handle& operator>>=(const T& value)
     {
         return operator=(*this >> value);
     }
