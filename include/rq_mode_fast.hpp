@@ -16,13 +16,18 @@ namespace seg {
 template<typename T>
 class rq_mode_fast
 {
-    std::vector<std::vector<std::optional<T>>> modes;
+public:
+    using index_type = size_t;
+    using value_type = T;
+
+private:
+    std::vector<std::vector<std::optional<value_type>>> modes;
 
 public:
     rq_mode_fast() = default;
 
-//    explicit rq_mode_fast(std::vector<T>&& xs) : xs(xs) { }
-    explicit rq_mode_fast(const std::vector<T>& xs) : rq_mode_fast(xs.cbegin(), xs.cend()) { }
+//    explicit rq_mode_fast(std::vector<value_type>&& xs) : xs(xs) { }
+    explicit rq_mode_fast(const std::vector<value_type>& xs) : rq_mode_fast(xs.cbegin(), xs.cend()) { }
 
     template<typename InputIt>
     rq_mode_fast(const InputIt it_begin, const InputIt it_end)
@@ -31,15 +36,15 @@ public:
 
         for(InputIt it_start = it_begin; it_start != it_end; it_start++) {
             bool is_unique = false;
-            size_t c_mode = 0;
-            T v_mode;
+            index_type c_mode = 0;
+            value_type v_mode;
 
             modes.emplace_back();
 
-            std::unordered_map<T, size_t> counts;
+            std::unordered_map<value_type, index_type> counts;
 
             for(InputIt it = it_start; it != it_end; it++) {
-                const size_t c = ++counts[*it];
+                const index_type c = ++counts[*it];
 
                 if(c > c_mode) {
                     c_mode = c;
@@ -60,9 +65,9 @@ public:
         }
     }
 
-    size_t size() const
+    index_type size() const
     {
-        return modes.size();
+        return (index_type)modes.size();
     }
 
     bool empty() const {
@@ -74,7 +79,7 @@ public:
      *
      * TODO: another method that returns one of the values
      */
-    std::optional<T> get(const size_t i_begin, const size_t i_end) const
+    std::optional<value_type> get(const index_type i_begin, const index_type i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= modes.size());

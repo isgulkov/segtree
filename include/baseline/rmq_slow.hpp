@@ -12,30 +12,35 @@ namespace seg::baseline {
 template<typename T, typename Compare = fx::less<T>>
 class rmq_slow
 {
-    const std::vector<T> xs;
+public:
+    using index_type = size_t;
+    using value_type = T;
+
+private:
+    const std::vector<value_type> xs;
 
 public:
-    explicit rmq_slow(const std::vector<T>& xs) : xs(xs) { }
+    explicit rmq_slow(const std::vector<value_type>& xs) : xs(xs) { }
 
-    explicit rmq_slow(std::vector<T>&& xs) : xs(xs) { }
+    explicit rmq_slow(std::vector<value_type>&& xs) : xs(xs) { }
 
     template <typename InputIt>
     rmq_slow(InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end) { }
 
-    size_t size() const
+    index_type size() const
     {
-        return xs.size();
+        return (index_type)xs.size();
     }
 
-    size_t index(const size_t i_begin, const size_t i_end) const
+    index_type index(const index_type i_begin, const index_type i_end) const
     {
         assert(0 <= i_begin);
         assert(i_end <= xs.size());
         assert(i_begin < i_end);
 
-        size_t i_min = i_begin;
+        index_type i_min = i_begin;
 
-        for(size_t i = i_begin + 1; i < i_end; i++) {
+        for(index_type i = i_begin + 1; i < i_end; i++) {
             if(Compare::apply(xs[i], xs[i_min])) {
                 i_min = i;
             }
@@ -44,7 +49,7 @@ public:
         return i_min;
     }
 
-    T get(const size_t i_begin, const size_t i_end) const
+    value_type get(const index_type i_begin, const index_type i_end) const
     {
         return xs[index(i_begin, i_end)];
     }

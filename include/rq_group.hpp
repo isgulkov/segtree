@@ -12,16 +12,21 @@ namespace seg {
 template<typename T, typename Group = fx::addition<T>>
 class rq_group
 {
-    const std::vector<T> vs;
+public:
+    using index_type = size_t;
+    using value_type = T;
+
+private:
+    const std::vector<value_type> vs;
 
     template <typename InputIt>
-    static std::vector<T> build_prefix_vs(InputIt it_begin, const InputIt it_end)
+    static std::vector<value_type> build_prefix_vs(InputIt it_begin, const InputIt it_end)
     {
         if(it_begin == it_end) {
             return {};
         }
 
-        std::vector<T> vs;
+        std::vector<value_type> vs;
         vs.reserve(it_end - it_begin);
 
         vs.emplace_back(*it_begin++);
@@ -33,12 +38,12 @@ class rq_group
         return vs;
     }
 
-    static std::vector<T> build_prefix_vs(std::vector<T>&& xs)
+    static std::vector<value_type> build_prefix_vs(std::vector<value_type>&& xs)
     {
         // TODO: std::move doesn't have any effect here, right?
         auto vs = std::move(xs);
 
-        for(size_t i = 1; i < vs.size(); i++) {
+        for(index_type i = 1; i < vs.size(); i++) {
             vs[i] = Group::add(vs[i], vs[i - 1]);
         }
 
@@ -48,16 +53,16 @@ class rq_group
 public:
     rq_group() = default;
 
-    explicit rq_group(const std::vector<T>& xs) : rq_group(xs.begin(), xs.end()) { }
+    explicit rq_group(const std::vector<value_type>& xs) : rq_group(xs.begin(), xs.end()) { }
 
     template <typename InputIt>
     rq_group(InputIt it_begin, const InputIt it_end) : vs(build_prefix_vs(it_begin, it_end)) { }
 
-    explicit rq_group(std::vector<T>&& xs) : vs(build_prefix_vs(xs)) { }
+    explicit rq_group(std::vector<value_type>&& xs) : vs(build_prefix_vs(xs)) { }
 
-    size_t size() const
+    index_type size() const
     {
-        return vs.size();
+        return (index_type)vs.size();
     }
 
     bool empty() const
@@ -65,7 +70,7 @@ public:
         return vs.empty();
     }
 
-    T get(const size_t i_begin, const size_t i_end) const
+    value_type get(const index_type i_begin, const index_type i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= vs.size());

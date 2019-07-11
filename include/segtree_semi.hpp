@@ -14,12 +14,14 @@ namespace seg {
 template<typename T, typename Semi = fx::addition<T>>
 class segtree_semi
 {
+    // TODO: visibility annotations? (https://libcxx.llvm.org/docs/DesignDocs/VisibilityMacros.html)
+
 public:
-//    using index_type = size_t;
+    using index_type = size_t;
     using value_type = T;
 
 private:
-    size_t n = 0;
+    index_type n = 0;
     std::vector<value_type> xs_nodes;
 
 public:
@@ -40,16 +42,16 @@ public:
 
         // TODO: make `xs_nodes` 0-based, perhaps extract some of the index work, comment the traversals
 
-        for(size_t i = 0; i < n; i++) {
+        for(index_type i = 0; i < n; i++) {
             xs_nodes[n + i] = *it_begin++;
         }
 
-        for(size_t i = n - 1; i != 0; i--) {
+        for(index_type i = n - 1; i != 0; i--) {
             xs_nodes[i] = Semi::add(xs_nodes[2 * i], xs_nodes[2 * i + 1]);
         }
     }
 
-    size_t size() const
+    index_type size() const
     {
         return n;
     }
@@ -59,7 +61,7 @@ public:
         return n == 0;
     }
 
-    value_type get(const size_t i_begin, const size_t i_end) const
+    value_type get(const index_type i_begin, const index_type i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= n);
@@ -79,7 +81,7 @@ public:
 
         value_type result = Semi::id();
 
-        for(size_t l = i_begin + n, r = i_end + n; l < r; l /= 2, r /= 2) {
+        for(index_type l = i_begin + n, r = i_end + n; l < r; l /= 2, r /= 2) {
             /**
              * For each node, one of two options if chosen:
              *   - if the parent is completely within/outside segment, proceed to it;
@@ -108,7 +110,7 @@ public:
         return result;
     }
 
-    value_type operator[](const size_t i) const {
+    value_type operator[](const index_type i) const {
         assert(i >= 0);
         assert(i < n);
 
@@ -117,7 +119,7 @@ public:
         return get(i, i + 1);
     }
 
-    void set(size_t i, const value_type& x)
+    void set(index_type i, const value_type& x)
     {
         assert(i >= 0);
         assert(i < n);
@@ -139,7 +141,7 @@ private:
     using elem_handle = util::_elem_handle<segtree_semi>;
 
 public:
-    elem_handle operator[](const size_t i)
+    elem_handle operator[](const index_type i)
     {
         assert(i >= 0);
         assert(i < n);

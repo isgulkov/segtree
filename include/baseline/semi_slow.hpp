@@ -14,7 +14,7 @@ template<typename T, typename Semi = fx::addition<T>>
 class semi_slow
 {
 public:
-//    using index_type = size_t;
+    using index_type = size_t;
     using value_type = T;
 
 private:
@@ -28,9 +28,9 @@ public:
     template <typename InputIt>
     semi_slow(const InputIt it_begin, const InputIt it_end) : xs(it_begin, it_end) { }
 
-    size_t size() const
+    index_type size() const
     {
-        return xs.size();
+        return (index_type)xs.size();
     }
 
     bool empty() const
@@ -39,7 +39,7 @@ public:
     }
 
 public:
-    T get(const size_t i_begin, const size_t i_end) const
+    T get(const index_type i_begin, const index_type i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= xs.size());
@@ -49,14 +49,14 @@ public:
 
         value_type result = xs[i_begin];
 
-        for(size_t i = i_begin + 1; i != i_end; i++) {
+        for(index_type i = i_begin + 1; i != i_end; i++) {
             result = Semi::add(result, xs[i]);
         }
 
         return result;
     }
 
-    const value_type& operator[](const size_t i) const
+    const value_type& operator[](const index_type i) const
     {
         assert(i >= 0);
         assert(i < xs.size());
@@ -64,7 +64,7 @@ public:
         return xs[i];
     }
 
-    void set(const size_t i, const value_type& x)
+    void set(const index_type i, const value_type& x)
     {
         assert(i >= 0);
         assert(i < xs.size());
@@ -76,7 +76,7 @@ private:
     using elem_handle = util::_elem_handle<semi_slow>;
 
 public:
-    elem_handle operator[](const size_t i)
+    elem_handle operator[](const index_type i)
     {
         assert(i >= 0);
         assert(i < xs.size());
@@ -84,7 +84,7 @@ public:
         return { *this, i };
     }
 
-    void update(const size_t i, std::function<value_type(const value_type&)> f)
+    void update(const index_type i, std::function<value_type(const value_type&)> f)
     {
         /**
          * TODO: benchmark the three point update interfaces:
