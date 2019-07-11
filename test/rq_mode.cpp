@@ -14,8 +14,8 @@ TEST(RqModeFast, Empty) {
     EXPECT_TRUE(seg::rq_mode_fast<int>().empty());
 }
 
-template<typename Rq, typename RqRef, typename T>
-void assert_against_reference(const std::vector<T>& xs)
+template<typename Rq, typename RqRef>
+void assert_against_reference(const std::vector<typename Rq::value_type>& xs)
 {
     RqRef rq_ref(xs);
     Rq rq(xs);
@@ -46,26 +46,26 @@ std::vector<int> xs_incs = ([]() {
 })();
 
 TEST(RqModeCompact, IntsRefMany) {
-    assert_against_reference<seg::rq_mode_compact<int>, seg::baseline::rq_mode_slow<int>, int>(xs_small);
+    assert_against_reference<seg::rq_mode_compact<int>, seg::baseline::rq_mode_slow<int>>(xs_small);
 }
 
 TEST(RqModeCompact, IntsRefFew) {
-    assert_against_reference<seg::rq_mode_compact<int>, seg::baseline::rq_mode_slow<int>, int>(ys_small);
+    assert_against_reference<seg::rq_mode_compact<int>, seg::baseline::rq_mode_slow<int>>(ys_small);
 }
 
 TEST(RqModeCompact, IntsRefUnique) {
-    assert_against_reference<seg::rq_mode_compact<int>, seg::baseline::rq_mode_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::rq_mode_compact<int>, seg::baseline::rq_mode_slow<int>>(xs_incs);
 }
 
 
 TEST(RqModeFast, IntsRefMany) {
-    assert_against_reference<seg::rq_mode_fast<int>, seg::baseline::rq_mode_slow<int>, int>(xs_small);
+    assert_against_reference<seg::rq_mode_fast<int>, seg::baseline::rq_mode_slow<int>>(xs_small);
 }
 
 TEST(RqModeFast, IntsRefFew) {
-    assert_against_reference<seg::rq_mode_fast<int>, seg::baseline::rq_mode_slow<int>, int>(ys_small);
+    assert_against_reference<seg::rq_mode_fast<int>, seg::baseline::rq_mode_slow<int>>(ys_small);
 }
 
 TEST(RqModeFast, IntsRefUnique) {
-    assert_against_reference<seg::rq_mode_fast<int>, seg::baseline::rq_mode_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::rq_mode_fast<int>, seg::baseline::rq_mode_slow<int>>(xs_incs);
 }

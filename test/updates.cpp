@@ -5,16 +5,16 @@
 #include "segtree_semi.hpp"
 
 
-template<typename Rq, typename RqRef, typename T>
+template<typename Rq, typename RqRef>
 class update_tester
 {
-    // TODO: Use Rq::value_type instead of the T parameter (here and in other tests)
-
     Rq rq;
     RqRef rq_ref;
 
+    using value_type = typename Rq::value_type;
+
 public:
-    explicit update_tester(const std::vector<T>& xs) : rq(xs), rq_ref(xs)
+    explicit update_tester(const std::vector<value_type>& xs) : rq(xs), rq_ref(xs)
     {
         assert_against_reference();
     }
@@ -26,7 +26,7 @@ public:
 
         for(int i = 0; i < rq.size(); i++) {
             for(int j = i + 1; j <= rq.size(); j++) {
-                if(std::is_floating_point<T>::value) {
+                if(std::is_floating_point<value_type>::value) {
                     ASSERT_FLOAT_EQ(rq.get(i, j), rq_ref.get(i, j)) << "(i, j) = (" << i << ", " << j << ")";
                 }
                 else {
@@ -36,7 +36,7 @@ public:
         }
     }
 
-    void set_call(const size_t i, const T& x)
+    void set_call(const size_t i, const value_type& x)
     {
         rq.set(i, x);
         rq_ref.set(i, x);
@@ -44,7 +44,7 @@ public:
         assert_against_reference();
     }
 
-    void set_handle(const size_t i, const T& x)
+    void set_handle(const size_t i, const value_type& x)
     {
         rq[i] = x;
         rq_ref[i] = x;
@@ -52,7 +52,7 @@ public:
         assert_against_reference();
     }
 
-    void add_handle(const size_t i, const T& x)
+    void add_handle(const size_t i, const value_type& x)
     {
         rq[i] += x;
         rq_ref[i] += x;
@@ -87,7 +87,7 @@ std::vector<std::pair<size_t, int>> xs_updates = {
 };
 
 TEST(PointFenwick, AddRefSet) {
-    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : xs_updates) {
         tester.set_call(p.first, p.second);
@@ -95,7 +95,7 @@ TEST(PointFenwick, AddRefSet) {
 }
 
 TEST(PointFenwick, AddRefHandleAssign) {
-    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : xs_updates) {
         tester.set_handle(p.first, p.second);
@@ -103,7 +103,7 @@ TEST(PointFenwick, AddRefHandleAssign) {
 }
 
 TEST(PointFenwick, AddRefHandleAdd) {
-    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : xs_updates) {
         tester.add_handle(p.first, p.second);
@@ -111,7 +111,7 @@ TEST(PointFenwick, AddRefHandleAdd) {
 }
 
 TEST(PointSegtree, AddRefSet) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : xs_updates) {
         tester.set_call(p.first, p.second);
@@ -119,7 +119,7 @@ TEST(PointSegtree, AddRefSet) {
 }
 
 TEST(PointSegtree, AddRefHandleAssign) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : xs_updates) {
         tester.set_handle(p.first, p.second);
@@ -127,7 +127,7 @@ TEST(PointSegtree, AddRefHandleAssign) {
 }
 
 TEST(PointSegtree, AddRefHandleAdd) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int> tester(xs_small);
+    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : xs_updates) {
         tester.add_handle(p.first, p.second);

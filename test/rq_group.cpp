@@ -19,8 +19,8 @@ TEST(RqgFenwick, Empty) {
     EXPECT_TRUE(seg::fenwick_tree<int>().empty());
 }
 
-template<typename Rq, typename RqRef, typename T>
-void assert_against_reference(const std::vector<T>& xs)
+template<typename Rq, typename RqRef>
+void assert_against_reference(const std::vector<typename Rq::value_type>& xs)
 {
     RqRef rq_ref(xs);
     Rq rq(xs);
@@ -30,7 +30,7 @@ void assert_against_reference(const std::vector<T>& xs)
 
     for(int i = 0; i < xs.size(); i++) {
         for(int j = i + 1; j <= xs.size(); j++) {
-            if(std::is_floating_point<T>::value) {
+            if(std::is_floating_point<typename Rq::value_type>::value) {
                 ASSERT_FLOAT_EQ(rq.get(i, j), rq_ref.get(i, j)) << "(i, j) = (" << i << ", " << j << ")";
             }
             else {
@@ -55,63 +55,63 @@ std::vector<double> zs = { 0.23562345900933712, 0.921194171139331, -0.0927100101
 // TODO: other group operators for each one!
 
 TEST(RqgStatic, AddRefSmall) {
-    assert_against_reference<seg::rq_group<int>, seg::baseline::semi_slow<int>, int>(xs_small);
+    assert_against_reference<seg::rq_group<int>, seg::baseline::semi_slow<int>>(xs_small);
 }
 
 TEST(RqgStatic, AddRef01) {
-    assert_against_reference<seg::rq_group<int>, seg::baseline::semi_slow<int>, int>(ys_small);
+    assert_against_reference<seg::rq_group<int>, seg::baseline::semi_slow<int>>(ys_small);
 }
 
 TEST(RqgStatic, AddRefIncs) {
-    assert_against_reference<seg::rq_group<int>, seg::baseline::semi_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::rq_group<int>, seg::baseline::semi_slow<int>>(xs_incs);
 }
 
 TEST(RqgStatic, AddRefFloat) {
-    assert_against_reference<seg::rq_group<double>, seg::baseline::semi_slow<double>, double>(zs);
+    assert_against_reference<seg::rq_group<double>, seg::baseline::semi_slow<double>>(zs);
 }
 
 TEST(RqgStatic, MulRefFloat) {
-    assert_against_reference<seg::rq_group<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>, double>(zs);
+    assert_against_reference<seg::rq_group<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>>(zs);
 }
 
 
 TEST(RqgSegtree, AddRefSmall) {
-    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int>(xs_small);
+    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>>(xs_small);
 }
 
 TEST(RqgSegtree, AddRef01) {
-    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int>(ys_small);
+    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>>(ys_small);
 }
 
 TEST(RqgSegtree, AddRefIncs) {
-    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>>(xs_incs);
 }
 
 TEST(RqgSegtree, AddRefFloat) {
-    assert_against_reference<seg::segtree_semi<double>, seg::baseline::semi_slow<double>, double>(zs);
+    assert_against_reference<seg::segtree_semi<double>, seg::baseline::semi_slow<double>>(zs);
 }
 
 TEST(RqgSegtree, MulRefFloat) {
-    assert_against_reference<seg::segtree_semi<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>, double>(zs);
+    assert_against_reference<seg::segtree_semi<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>>(zs);
 }
 
 
 TEST(RqgFenwick, AddRefSmall) {
-    assert_against_reference<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int>(xs_small);
+    assert_against_reference<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>>(xs_small);
 }
 
 TEST(RqgFenwick, AddRef01) {
-    assert_against_reference<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int>(ys_small);
+    assert_against_reference<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>>(ys_small);
 }
 
 TEST(RqgFenwick, AddRefIncs) {
-    assert_against_reference<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>>(xs_incs);
 }
 
 TEST(RqgFenwick, AddRefFloat) {
-    assert_against_reference<seg::fenwick_tree<double>, seg::baseline::semi_slow<double>, double>(zs);
+    assert_against_reference<seg::fenwick_tree<double>, seg::baseline::semi_slow<double>>(zs);
 }
 
 TEST(RqgFenwick, MulRefFloat) {
-    assert_against_reference<seg::fenwick_tree<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>, double>(zs);
+    assert_against_reference<seg::fenwick_tree<double, seg::fx::multiplication<double>>, seg::baseline::semi_slow<double, seg::fx::multiplication<double>>>(zs);
 }

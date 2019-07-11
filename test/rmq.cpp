@@ -20,8 +20,8 @@ TEST(RmqCartesian, Empty) {
     EXPECT_TRUE(seg::rmq_cartesian<int>().empty());
 }
 
-template<typename Rmq, typename RmqRef, typename T>
-void assert_against_reference(const std::vector<T>& xs)
+template<typename Rmq, typename RmqRef>
+void assert_against_reference(const std::vector<typename Rmq::value_type>& xs)
 {
     RmqRef rmq_ref(xs);
     Rmq rmq(xs);
@@ -49,97 +49,97 @@ std::vector<double> zs = { 0.23562345900933712, 0.921194171139331, -0.0927100101
                            -0.5455637708111314, 0.9757643830812546, 0.9398363132695124 };
 
 TEST(RmqSegtree, MinRefSmall) {
-    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>, int>(xs_small);
+    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>>(xs_small);
 }
 
 TEST(RmqSegtree, MinRef01) {
-    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>, int>(ys_small);
+    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>>(ys_small);
 }
 
 TEST(RmqSegtree, MinRefIncs) {
-    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>>(xs_incs);
 }
 
 TEST(RmqSegtree, MinRefFloat) {
-    assert_against_reference<seg::segtree_min<double>, seg::baseline::rmq_slow<double>, double>(zs);
+    assert_against_reference<seg::segtree_min<double>, seg::baseline::rmq_slow<double>>(zs);
 }
 
 TEST(RmqSegtree, MaxRefSmall) {
-    assert_against_reference<seg::segtree_max<int>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(xs_small);
+    assert_against_reference<seg::segtree_max<int>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(xs_small);
 }
 
 TEST(RmqSegtree, MaxRef01) {
-    assert_against_reference<seg::segtree_max<int>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(ys_small);
+    assert_against_reference<seg::segtree_max<int>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(ys_small);
 }
 
 TEST(RmqSegtree, MaxRefIncs) {
-    assert_against_reference<seg::segtree_max<int>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(xs_incs);
+    assert_against_reference<seg::segtree_max<int>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(xs_incs);
 }
 
 TEST(RmqSegtree, MaxRefFloat) {
-    assert_against_reference<seg::segtree_max<double>, seg::baseline::rmq_slow<double, seg::fx::greater<>>, double>(zs);
+    assert_against_reference<seg::segtree_max<double>, seg::baseline::rmq_slow<double, seg::fx::greater<>>>(zs);
 }
 
 TEST(RmqFast, MinRefSmall) {
-    assert_against_reference<seg::rmq_fast<int>, seg::baseline::rmq_slow<int>, int>(xs_small);
+    assert_against_reference<seg::rmq_fast<int>, seg::baseline::rmq_slow<int>>(xs_small);
 }
 
 TEST(RmqFast, MinRef01) {
-    assert_against_reference<seg::rmq_fast<int>, seg::baseline::rmq_slow<int>, int>(ys_small);
+    assert_against_reference<seg::rmq_fast<int>, seg::baseline::rmq_slow<int>>(ys_small);
 }
 
 TEST(RmqFast, MinRefIncs) {
-    assert_against_reference<seg::rmq_fast<int>, seg::baseline::rmq_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::rmq_fast<int>, seg::baseline::rmq_slow<int>>(xs_incs);
 }
 
 TEST(RmqFast, MinRefFloat) {
-    assert_against_reference<seg::rmq_fast<double>, seg::baseline::rmq_slow<double>, double>(zs);
+    assert_against_reference<seg::rmq_fast<double>, seg::baseline::rmq_slow<double>>(zs);
 }
 
 TEST(RmqFast, MaxRefSmall) {
-    assert_against_reference<seg::rmq_fast<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(xs_small);
+    assert_against_reference<seg::rmq_fast<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(xs_small);
 }
 
 TEST(RmqFast, MaxRef01) {
-    assert_against_reference<seg::rmq_fast<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(ys_small);
+    assert_against_reference<seg::rmq_fast<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(ys_small);
 }
 
 TEST(RmqFast, MaxRefIncs) {
-    assert_against_reference<seg::rmq_fast<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(xs_incs);
+    assert_against_reference<seg::rmq_fast<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(xs_incs);
 }
 
 TEST(RmqFast, MaxRefFloat) {
-    assert_against_reference<seg::rmq_fast<double, seg::fx::greater<>>, seg::baseline::rmq_slow<double, seg::fx::greater<>>, double>(zs);
+    assert_against_reference<seg::rmq_fast<double, seg::fx::greater<>>, seg::baseline::rmq_slow<double, seg::fx::greater<>>>(zs);
 }
 
 TEST(RmqCartesian, MinRefSmall) {
-    assert_against_reference<seg::rmq_cartesian<int>, seg::baseline::rmq_slow<int>, int>(xs_small);
+    assert_against_reference<seg::rmq_cartesian<int>, seg::baseline::rmq_slow<int>>(xs_small);
 }
 
 TEST(RmqCartesian, MinRef01) {
-    assert_against_reference<seg::rmq_cartesian<int>, seg::baseline::rmq_slow<int>, int>(ys_small);
+    assert_against_reference<seg::rmq_cartesian<int>, seg::baseline::rmq_slow<int>>(ys_small);
 }
 
 TEST(RmqCartesian, MinRefIncs) {
-    assert_against_reference<seg::rmq_cartesian<int>, seg::baseline::rmq_slow<int>, int>(xs_incs);
+    assert_against_reference<seg::rmq_cartesian<int>, seg::baseline::rmq_slow<int>>(xs_incs);
 }
 
 TEST(RmqCartesian, MinRefFloat) {
-    assert_against_reference<seg::rmq_cartesian<double>, seg::baseline::rmq_slow<double>, double>(zs);
+    assert_against_reference<seg::rmq_cartesian<double>, seg::baseline::rmq_slow<double>>(zs);
 }
 
 TEST(RmqCartesian, MaxRefSmall) {
-    assert_against_reference<seg::rmq_cartesian<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(xs_small);
+    assert_against_reference<seg::rmq_cartesian<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(xs_small);
 }
 
 TEST(RmqCartesian, MaxRef01) {
-    assert_against_reference<seg::rmq_cartesian<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(ys_small);
+    assert_against_reference<seg::rmq_cartesian<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(ys_small);
 }
 
 TEST(RmqCartesian, MaxRefIncs) {
-    assert_against_reference<seg::rmq_cartesian<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>, int>(xs_incs);
+    assert_against_reference<seg::rmq_cartesian<int, seg::fx::greater<>>, seg::baseline::rmq_slow<int, seg::fx::greater<>>>(xs_incs);
 }
 
 TEST(RmqCartesian, MaxRefFloat) {
-    assert_against_reference<seg::rmq_cartesian<double, seg::fx::greater<>>, seg::baseline::rmq_slow<double, seg::fx::greater<>>, double>(zs);
+    assert_against_reference<seg::rmq_cartesian<double, seg::fx::greater<>>, seg::baseline::rmq_slow<double, seg::fx::greater<>>>(zs);
 }
