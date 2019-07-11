@@ -17,15 +17,17 @@ class _elem_handle
      *  (here and other places, like the tests)
      */
 
-
     using elem_handle = _elem_handle<Parent, T>;
 
 public:
     _elem_handle(Parent& parent, const size_t i) : parent(parent), i(i) { }
 
-    // TODO: make convertible into `const T&` where supported
+    /**
+     * The const version of operator[](size_t) may return either T or const T&, depending on the data structure.
+     */
+    using parent_el_type = decltype(const_cast<const Parent&>(parent)[size_t{}]);
 
-    operator T() const // NOLINT(google-explicit-constructor,hicpp-explicit-conversions)
+    operator parent_el_type() const // NOLINT(google-explicit-constructor,hicpp-explicit-conversions)
     {
         return const_cast<const Parent&>(parent)[i];
     }
