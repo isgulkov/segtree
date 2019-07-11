@@ -10,6 +10,7 @@ add_executable(segtree main_segtree.cpp)
 add_executable(rmq_static main_rmq_static.cpp)
 add_executable(rq_group main_rq_group.cpp)
 add_executable(mode main_mode.cpp)
+add_executable(stack_queue main_stack_queue.cpp)
 
 #### Tests ####
 
