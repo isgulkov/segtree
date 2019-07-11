@@ -4,21 +4,16 @@
 
 namespace seg::util {
 
-template<typename Parent, typename T>
+template<typename Parent>
 class _elem_handle
 {
     Parent& parent;
-    size_t i;
-
-    /**
-     * TODO: get the T out of the Parent one way or another:
-     *  - Parent::value_type
-     *  - seg::hz_traits<Parent>::value_type
-     *  (here and other places, like the tests)
-     */
+    const size_t i;
 
 public:
     _elem_handle(Parent& parent, const size_t i) : parent(parent), i(i) { }
+
+    using value_type = typename Parent::value_type;
 
     /**
      * The const version of operator[](size_t) may return either T or const T&, depending on the data structure.
@@ -30,59 +25,59 @@ public:
         return const_cast<const Parent&>(parent)[i];
     }
 
-    _elem_handle& operator=(const T& value)
+    _elem_handle& operator=(const value_type& value)
     {
         parent.set(i, value);
 
         return *this;
     }
 
-    _elem_handle& operator+=(const T& value)
+    _elem_handle& operator+=(const value_type& value)
     {
         return operator=(*this + value);
     }
 
-    _elem_handle& operator-=(const T& value)
+    _elem_handle& operator-=(const value_type& value)
     {
         return operator=(*this - value);
     }
 
-    _elem_handle& operator*=(const T& value)
+    _elem_handle& operator*=(const value_type& value)
     {
         return operator=(*this * value);
     }
 
-    _elem_handle& operator/=(const T& value)
+    _elem_handle& operator/=(const value_type& value)
     {
         return operator=(*this / value);
     }
 
-    _elem_handle& operator%=(const T& value)
+    _elem_handle& operator%=(const value_type& value)
     {
         return operator=(*this % value);
     }
 
-    _elem_handle& operator&=(const T& value)
+    _elem_handle& operator&=(const value_type& value)
     {
         return operator=(*this & value);
     }
 
-    _elem_handle& operator|=(const T& value)
+    _elem_handle& operator|=(const value_type& value)
     {
         return operator=(*this | value);
     }
 
-    _elem_handle& operator^=(const T& value)
+    _elem_handle& operator^=(const value_type& value)
     {
         return operator=(*this ^ value);
     }
 
-    _elem_handle& operator<<=(const T& value)
+    _elem_handle& operator<<=(const value_type& value)
     {
         return operator=(*this << value);
     }
 
-    _elem_handle& operator>>=(const T& value)
+    _elem_handle& operator>>=(const value_type& value)
     {
         return operator=(*this >> value);
     }

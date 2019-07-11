@@ -8,6 +8,8 @@
 template<typename Rq, typename RqRef, typename T>
 class update_tester
 {
+    // TODO: Use Rq::value_type instead of the T parameter (here and in other tests)
+
     Rq rq;
     RqRef rq_ref;
 

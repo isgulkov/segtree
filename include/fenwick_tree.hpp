@@ -13,12 +13,17 @@ namespace seg {
 template<typename T, typename Group = fx::addition<T>>
 class fenwick_tree
 {
-    std::vector<T> xs;
+public:
+//    using index_type = size_t;
+    using value_type = T;
+
+private:
+    std::vector<value_type> xs;
 
 public:
     fenwick_tree() = default;
 
-    explicit fenwick_tree(const std::vector<T>& xs) : fenwick_tree(xs.cbegin(), xs.cend()) { }
+    explicit fenwick_tree(const std::vector<value_type>& xs) : fenwick_tree(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
     fenwick_tree(const InputIt it_begin, const InputIt it_end) : xs(it_end - it_begin, Group::id())
@@ -39,13 +44,13 @@ public:
     }
 
 private:
-    T get_upto(size_t i_end) const
+    value_type get_upto(size_t i_end) const
     {
         if(!i_end) {
             return Group::id();
         }
 
-        T result = xs[i_end - 1];
+        value_type result = xs[i_end - 1];
 
         while(i_end -= (i_end & -i_end)) {
             result = Group::add(result, xs[i_end - 1]);
@@ -55,7 +60,7 @@ private:
     }
 
 public:
-    T get(const size_t i_begin, const size_t i_end) const
+    value_type get(const size_t i_begin, const size_t i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= xs.size());
@@ -64,7 +69,7 @@ public:
         return Group::subtract(get_upto(i_end), get_upto(i_begin));
     }
 
-    T operator[](const size_t i) const
+    value_type operator[](const size_t i) const
     {
         assert(i >= 0);
         assert(i < xs.size());
@@ -72,7 +77,7 @@ public:
         return get(i, i + 1);
     }
 
-    void add(size_t i, const T& delta)
+    void add(size_t i, const value_type& delta)
     {
         assert(i >= 0);
         assert(i < xs.size());
@@ -84,7 +89,7 @@ public:
         }
     }
 
-    void set(const size_t i, const T& x)
+    void set(const size_t i, const value_type& x)
     {
         assert(i >= 0);
         assert(i < xs.size());
@@ -93,7 +98,7 @@ public:
     }
 
 private:
-    using elem_handle = util::_elem_handle<fenwick_tree<T, Group>, T>;
+    using elem_handle = util::_elem_handle<fenwick_tree>;
 
 public:
     elem_handle operator[](const size_t i)

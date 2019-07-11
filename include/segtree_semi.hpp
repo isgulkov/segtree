@@ -14,16 +14,21 @@ namespace seg {
 template<typename T, typename Semi = fx::addition<T>>
 class segtree_semi
 {
+public:
+//    using index_type = size_t;
+    using value_type = T;
+
+private:
     size_t n = 0;
-    std::vector<T> xs_nodes;
+    std::vector<value_type> xs_nodes;
 
 public:
     segtree_semi() = default;
 
 //    TODO: use this?
-//    std::vector<T>&& xs
+//    std::vector<value_type>&& xs
 
-    explicit segtree_semi(const std::vector<T>& xs) : segtree_semi(xs.cbegin(), xs.cend()) { }
+    explicit segtree_semi(const std::vector<value_type>& xs) : segtree_semi(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
     segtree_semi(InputIt it_begin, const InputIt it_end) : n(it_end - it_begin),
@@ -54,7 +59,7 @@ public:
         return n == 0;
     }
 
-    T get(const size_t i_begin, const size_t i_end) const
+    value_type get(const size_t i_begin, const size_t i_end) const
     {
         assert(i_begin >= 0);
         assert(i_end <= n);
@@ -72,7 +77,7 @@ public:
          * common ancestor, processing partial contributions from fully-included nodes.
          */
 
-        T result = Semi::id();
+        value_type result = Semi::id();
 
         for(size_t l = i_begin + n, r = i_end + n; l < r; l /= 2, r /= 2) {
             /**
@@ -103,7 +108,7 @@ public:
         return result;
     }
 
-    T operator[](const size_t i) const {
+    value_type operator[](const size_t i) const {
         assert(i >= 0);
         assert(i < n);
 
@@ -112,7 +117,7 @@ public:
         return get(i, i + 1);
     }
 
-    void set(size_t i, const T& x)
+    void set(size_t i, const value_type& x)
     {
         assert(i >= 0);
         assert(i < n);
@@ -131,7 +136,7 @@ public:
     }
 
 private:
-    using elem_handle = util::_elem_handle<segtree_semi<T, Semi>, T>;
+    using elem_handle = util::_elem_handle<segtree_semi>;
 
 public:
     elem_handle operator[](const size_t i)
