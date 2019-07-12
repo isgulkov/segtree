@@ -62,3 +62,10 @@ target_link_libraries(bm_rq_mode_constant PRIVATE benchmark)
 
 add_executable(bm_point_updates benchmark/point_updates.cpp)
 target_link_libraries(bm_point_updates PRIVATE benchmark)
+
+add_executable(bm_range_updates benchmark/range_updates.cpp)
+target_link_libraries(bm_range_updates PRIVATE benchmark)
+
+#### Random testing ####
+
+# ...

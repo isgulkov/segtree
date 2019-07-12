@@ -73,4 +73,29 @@ std::vector<std::pair<size_t, int>> random_point_vs(size_t n, const size_t size)
     return ps;
 }
 
+std::vector<std::tuple<size_t, size_t, int>> random_range_vs(size_t n, const size_t size)
+{
+    std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<int> i_dist(0, size - 1), x_dist(-150, 150);
+
+    std::vector<std::tuple<size_t, size_t, int>> ps;
+    ps.reserve(n);
+
+    while(n--) {
+        size_t i = i_dist(rng), j;
+
+        do {
+            j = i_dist(rng);
+        } while(i == j);
+
+        if(i > j) {
+            std::swap(i, j);
+        }
+
+        ps.emplace_back(i, j, x_dist(rng));
+    }
+
+    return ps;
+}
+
 #endif //SEGTREE_BENCH_UTIL_HPP
