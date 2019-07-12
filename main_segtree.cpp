@@ -1,8 +1,6 @@
 #include <iostream>
 
-#include "baseline/semi_slow.hpp"
-#include "segtree_semi.hpp"
-#include "fenwick_tree.hpp"
+#include "segtree_lazy.hpp"
 
 template<typename Segtree>
 void ept(const std::vector<int>& xs)
@@ -35,7 +33,7 @@ void ept(const std::vector<int>& xs)
 }
 
 template<typename Segtree>
-void print_some(const Segtree& tree)
+void print_some(Segtree& tree)
 {
     for(int i = 0; i < tree.size(); i++) {
         for(int j = i + 1; j <= tree.size(); j++) {
@@ -60,27 +58,35 @@ int main(int argc, char** argv)
 //    ept<seg::segtree_semi<int>>(xs);
 //    ept<seg::fenwick_tree<int>>(xs);
 
-    seg::baseline::semi_slow<int> hui(xs);
+//    seg::segtree_lazy<int> hui(xs);
+    seg::segtree_lazy<int> hui({ 0, 0, 0, 0, 0, 0, 0 });
 
     print_some(hui);
 
     hui[5] = 10;
-
     print_some(hui);
 
-    hui[5] = hui[5] - 10;
+//    hui[5] = hui[5] - 10;
+//
+//    print_some(hui);
+//
+//    hui[5] += 7;
+//
+//    print_some(hui);
+//
+//    hui[5] *= 10;
+//
+//    print_some(hui);
 
+    hui.add(0, 4, 7);
     print_some(hui);
 
-    hui[5] += 7;
-
+    hui[{ 1, 6 }] += -3;
     print_some(hui);
 
-    hui[5] *= 10;
-
+    hui[{ 2, 5 }] += -5;
     print_some(hui);
 
-    hui.set(0, 4, 7);
-
+    hui[{ 3, 4 }] += -11;
     print_some(hui);
 }

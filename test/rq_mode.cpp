@@ -28,7 +28,7 @@ void assert_against_reference(const std::vector<typename Rq::value_type>& xs)
             const auto v = rq.get(i, j);
             const auto v_ref = rq_ref.get(i, j);
 
-            EXPECT_EQ(v.has_value(), v_ref.has_value()) << "(i, j) = (" << i << ", " << j << ")";;
+            EXPECT_EQ(v.has_value(), v_ref.has_value()) << "(i, j) = (" << i << ", " << j << ")";
 
             if(v.has_value() && v_ref.has_value()) {
                 ASSERT_EQ(v.value(), v_ref.value()) << "(i, j) = (" << i << ", " << j << ")";
