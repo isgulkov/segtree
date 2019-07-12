@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include "util/functions.hpp"
-#include "util/_elem_handle.hpp"
+#include "util/elem_handle.hpp"
 
 namespace seg::baseline {
 
@@ -73,11 +73,7 @@ public:
         xs[i] = x;
     }
 
-private:
-    using elem_handle = util::_elem_handle<semi_slow>;
-
-public:
-    elem_handle operator[](const index_type i)
+    util::elem_handle<semi_slow> operator[](const index_type i)
     {
         assert(i >= 0);
         assert(i < xs.size());
@@ -100,7 +96,7 @@ public:
         xs[i] = f(xs[i]);
     }
 
-    void set(const size_t i_begin, const size_t i_end, const value_type& x)
+    void set(const index_type i_begin, const index_type i_end, const value_type& x)
     {
         assert(i_begin >= 0);
         assert(i_end <= xs.size());

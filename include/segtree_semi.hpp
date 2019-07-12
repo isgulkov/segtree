@@ -7,7 +7,7 @@
 
 #include "util/functions.hpp"
 #include "util/util.hpp"
-#include "util/_elem_handle.hpp"
+#include "util/elem_handle.hpp"
 
 namespace seg {
 
@@ -88,6 +88,8 @@ public:
              *   - otherwise, proceed to the parent's inner sibling, after adding node's contribution to `result`.
              *
              * Due to how the tree is built, indices of left children are odd, of right children -- even.
+             *
+             * TODO: Adapt for the non-commutative case (add everything left-to-right)
              */
 
             if(l % 2) {
@@ -137,11 +139,7 @@ public:
         }
     }
 
-private:
-    using elem_handle = util::_elem_handle<segtree_semi>;
-
-public:
-    elem_handle operator[](const index_type i)
+    util::elem_handle<segtree_semi> operator[](const index_type i)
     {
         assert(i >= 0);
         assert(i < n);

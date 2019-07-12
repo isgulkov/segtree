@@ -6,7 +6,7 @@
 #include <cassert>
 
 #include "util/functions.hpp"
-#include "util/_elem_handle.hpp"
+#include "util/elem_handle.hpp"
 
 namespace seg {
 
@@ -94,14 +94,12 @@ public:
         assert(i >= 0);
         assert(i < xs.size());
 
+        // REVIEW: doesn't this call to non-const operator[] incur any performance overhead?
+
         add(i, Group::subtract(x, operator[](i)));
     }
 
-private:
-    using elem_handle = util::_elem_handle<fenwick_tree>;
-
-public:
-    elem_handle operator[](const index_type i)
+    util::elem_handle<fenwick_tree> operator[](const index_type i)
     {
         assert(i >= 0);
         assert(i < xs.size());
