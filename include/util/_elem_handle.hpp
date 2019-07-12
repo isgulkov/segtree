@@ -7,18 +7,19 @@ namespace seg::util {
 template<typename Parent>
 class _elem_handle
 {
-    Parent& parent;
-    const size_t i;
-
-public:
-    _elem_handle(Parent& parent, const size_t i) : parent(parent), i(i) { }
-
+    using index_type = typename Parent::index_type;
     using value_type = typename Parent::value_type;
 
+    Parent& parent;
+    const index_type i;
+
+public:
+    _elem_handle(Parent& parent, const index_type i) : parent(parent), i(i) { }
+
     /**
-     * The const version of operator[](size_t) may return either T or const T&, depending on the data structure.
+     * The const version of operator[](index_type) may return either T or const T&, depending on the data structure.
      */
-    using parent_el_type = decltype(const_cast<const Parent&>(parent)[size_t{}]);
+    using parent_el_type = decltype(const_cast<const Parent&>(parent)[index_type{}]);
 
     operator parent_el_type() const // NOLINT(google-explicit-constructor,hicpp-explicit-conversions)
     {
