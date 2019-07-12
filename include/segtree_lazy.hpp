@@ -62,7 +62,7 @@ public:
         build_nodes(xs_nodes, 1, it_begin, it_end);
 
         // TODO: These should be about half the size as leaf nodes don't ever need these values.
-        ds_nodes.resize(xs_nodes.size(), Semi::id());
+        ds_nodes.resize(xs_nodes.size(), Semi::id);
         sets_nodes.resize(xs_nodes.size(), false);
     }
 
@@ -110,14 +110,14 @@ private:
             }
         }
 
-        ds_nodes[i_node] = Semi::id();
+        ds_nodes[i_node] = Semi::id;
         sets_nodes[i_node] = false;
     }
 
     value_type _get(const index_type i_begin, const index_type i_end,
                     const index_type in_begin, const index_type in_end, const index_type i_node) const
     {
-        if(sets_nodes[i_node] || ds_nodes[i_node] != Semi::id()) {
+        if(sets_nodes[i_node] || ds_nodes[i_node] != Semi::id) {
             _push_changes(in_begin, in_end, i_node);
         }
 

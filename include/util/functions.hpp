@@ -30,19 +30,14 @@ struct greater<void> {
 
 // Identity elements
 
-/**
- * TODO: Find a way to replace the id() functions with values. Perhaps constexpr?
- *         static constexpr T _id = std::numeric_limits<T>::max();
- */
-
 template<typename T>
 struct id_max {
-    static T id() { return std::numeric_limits<T>::max(); }
+    static constexpr T id = std::numeric_limits<T>::max();
 };
 
 template<typename T>
 struct id_lowest {
-    static T id() { return std::numeric_limits<T>::lowest(); }
+    static constexpr T id = std::numeric_limits<T>::lowest();
 };
 
 // Semigroups
@@ -51,14 +46,14 @@ template<typename T, typename Compare = less<T>, typename Id = id_max<T>>
 struct semi_min {
     static T add(const T& a, const T& b) { return Compare::apply(a, b) ? a : b; }
     static T multiply(const T& a, const size_t n) { return a; }
-    static T id() { return Id::id(); }
+    static constexpr T id = Id::id;
 };
 
 template<typename T, typename Compare = greater<T>, typename Id = id_lowest<T>>
 struct semi_max {
     static T add(const T& a, const T& b) { return Compare::apply(a, b) ? a : b; }
     static T multiply(const T& a, const size_t n) { return a; }
-    static T id() { return Id::id(); }
+    static constexpr T id = Id::id;
 };
 
 // Groups
@@ -68,7 +63,7 @@ struct addition {
     static T add(const T& a, const T& b) { return a + b; }
     static T multiply(const T& a, const size_t n) { return a * n; }
     static T subtract(const T& a, const T& b) { return a - b; }
-    static T id() { return T(); }
+    static constexpr T id = T();
 };
 
 template<typename T = void>
@@ -76,7 +71,7 @@ struct multiplication {
     static T add(const T& a, const T& b) { return a * b; }
     static T multiply(T a, size_t n) { return std::pow(a, n); }
     static T subtract(const T& a, const T& b) { return a / b; }
-    static T id() { return T(1); }
+    static constexpr T id = T(1);
 };
 
 // TODO: is there a way to have a usable id() for the specialization below?

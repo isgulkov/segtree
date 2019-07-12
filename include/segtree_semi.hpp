@@ -34,11 +34,9 @@ public:
 
     template <typename InputIt>
     segtree_semi(InputIt it_begin, const InputIt it_end) : n(it_end - it_begin),
-                                                                xs_nodes(2 << (util::log2(n - 1) + 1), Semi::id())
+                                                                xs_nodes(2 << (util::log2(n - 1) + 1), Semi::id)
     {
-        // `xs_min` size is rounded up to the next power of two, where the tree would be saturated
-        // TODO!: only make it as large as necessary
-        // TODO!: initialization with id() seems to be unnecessary
+        // TODO!: Only make the node vector as large as necessary and don't initialize it with ::id.
 
         // TODO: make `xs_nodes` 0-based, perhaps extract some of the index work, comment the traversals
 
@@ -79,7 +77,7 @@ public:
          * common ancestor, processing partial contributions from fully-included nodes.
          */
 
-        value_type result = Semi::id();
+        value_type result = Semi::id;
 
         for(index_type l = i_begin + n, r = i_end + n; l < r; l /= 2, r /= 2) {
             /**

@@ -26,7 +26,7 @@ public:
     explicit __attribute__((unused)) fenwick_tree(const std::vector<value_type>& xs) : fenwick_tree(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
-    fenwick_tree(const InputIt it_begin, const InputIt it_end) : xs(it_end - it_begin, Group::id())
+    fenwick_tree(const InputIt it_begin, const InputIt it_end) : xs(it_end - it_begin, Group::id)
     {
         for(index_type i = 0; i < xs.size(); i++) {
             add(i, it_begin[i]);
@@ -47,7 +47,7 @@ private:
     value_type get_upto(index_type i_end) const
     {
         if(!i_end) {
-            return Group::id();
+            return Group::id;
         }
 
         value_type result = xs[i_end - 1];
