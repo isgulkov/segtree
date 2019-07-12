@@ -27,7 +27,7 @@ private:
 public:
     segtree_semi() = default;
 
-//    TODO: use this?
+//    TODO: use this constructor?
 //    std::vector<value_type>&& xs
 
     explicit segtree_semi(const std::vector<value_type>& xs) : segtree_semi(xs.cbegin(), xs.cend()) { }
@@ -112,13 +112,11 @@ public:
         return result;
     }
 
-    value_type operator[](const index_type i) const {
+    const value_type& operator[](const index_type i) const {
         assert(i >= 0);
         assert(i < n);
 
-        // TODO: just return const& to `xs_nodes[n + i]` in the non-lazy version (which is what this is)
-
-        return get(i, i + 1);
+        return xs_nodes[i + n];
     }
 
     void set(index_type i, const value_type& x)
