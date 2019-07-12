@@ -58,7 +58,7 @@ public:
     template <typename InputIt>
     rq_group(InputIt it_begin, const InputIt it_end) : vs(build_prefix_vs(it_begin, it_end)) { }
 
-    explicit rq_group(std::vector<value_type>&& xs) : vs(build_prefix_vs(xs)) { }
+    explicit __unused rq_group(std::vector<value_type>&& xs) : vs(build_prefix_vs(xs)) { }
 
     index_type size() const
     {
