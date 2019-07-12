@@ -187,8 +187,8 @@ public:
     util::range_handle<segtree_lazy> operator[](const std::pair<index_type, index_type> ix)
     {
         assert(ix.first >= 0);
-        assert(ix.second <= xs.size());
-        assert(ix.first < ix.secondd);
+        assert(ix.second <= n);
+        assert(ix.first < ix.second);
 
         return { *this, ix.first, ix.second };
     }

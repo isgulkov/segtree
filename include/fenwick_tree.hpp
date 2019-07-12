@@ -23,7 +23,7 @@ private:
 public:
     fenwick_tree() = default;
 
-    explicit fenwick_tree(const std::vector<value_type>& xs) : fenwick_tree(xs.cbegin(), xs.cend()) { }
+    explicit __attribute__((unused)) fenwick_tree(const std::vector<value_type>& xs) : fenwick_tree(xs.cbegin(), xs.cend()) { }
 
     template <typename InputIt>
     fenwick_tree(const InputIt it_begin, const InputIt it_end) : xs(it_end - it_begin, Group::id())

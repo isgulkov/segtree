@@ -65,13 +65,13 @@ public:
 };
 
 template<typename T>
-struct stack_min : stack_semi<T, fx::less<T>> { } __unused;
+struct stack_min : stack_semi<T, fx::less<T>> { } __attribute__((unused));
 
 template<typename T>
-struct stack_max : stack_semi<T, fx::greater<T>> { }  __unused;
+struct stack_max : stack_semi<T, fx::greater<T>> { }  __attribute__((unused));
 
 template<typename T>
-struct stack_sum : stack_semi<T, fx::addition<T>> { }  __unused;
+struct stack_sum : stack_semi<T, fx::addition<T>> { }  __attribute__((unused));
 
 }
 

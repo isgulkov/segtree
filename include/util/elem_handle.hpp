@@ -14,7 +14,7 @@ class elem_handle
     const index_type i;
 
 public:
-    __unused elem_handle(Parent& parent, const index_type i) : parent(parent), i(i) { }
+    __attribute__((unused)) elem_handle(Parent& parent, const index_type i) : parent(parent), i(i) { }
 
     /**
      * The const version of operator[](index_type) may return either T or const T&, depending on the data structure.

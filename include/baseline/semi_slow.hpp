@@ -121,7 +121,7 @@ public:
     {
         assert(ix.first >= 0);
         assert(ix.second <= xs.size());
-        assert(ix.first < ix.secondd);
+        assert(ix.first < ix.second);
 
         return { *this, ix.first, ix.second };
     }
