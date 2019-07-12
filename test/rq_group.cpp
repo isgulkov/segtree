@@ -12,7 +12,7 @@ TEST(RqgStatic, Empty) {
 }
 
 TEST(RqgSegtree, Empty) {
-    EXPECT_TRUE(seg::segtree_semi<int>().empty());
+    EXPECT_TRUE(seg::segtree_sum<int>().empty());
 }
 
 TEST(RqgFenwick, Empty) {
@@ -76,19 +76,19 @@ TEST(RqgStatic, MulRefFloat) {
 
 
 TEST(RqgSegtree, AddRefSmall) {
-    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>>(xs_small);
+    assert_against_reference<seg::segtree_sum<int>, seg::baseline::semi_slow<int>>(xs_small);
 }
 
 TEST(RqgSegtree, AddRef01) {
-    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>>(ys_small);
+    assert_against_reference<seg::segtree_sum<int>, seg::baseline::semi_slow<int>>(ys_small);
 }
 
 TEST(RqgSegtree, AddRefIncs) {
-    assert_against_reference<seg::segtree_semi<int>, seg::baseline::semi_slow<int>>(xs_incs);
+    assert_against_reference<seg::segtree_sum<int>, seg::baseline::semi_slow<int>>(xs_incs);
 }
 
 TEST(RqgSegtree, AddRefFloat) {
-    assert_against_reference<seg::segtree_semi<double>, seg::baseline::semi_slow<double>>(zs);
+    assert_against_reference<seg::segtree_sum<double>, seg::baseline::semi_slow<double>>(zs);
 }
 
 TEST(RqgSegtree, MulRefFloat) {

@@ -11,7 +11,7 @@
 
 namespace seg {
 
-template<typename T, typename Semi = fx::addition<T>>
+template<typename T, typename Semi>
 class segtree_semi
 {
     // TODO: visibility annotations? (https://libcxx.llvm.org/docs/DesignDocs/VisibilityMacros.html)
@@ -146,6 +146,12 @@ public:
 
         return { *this, i };
     }
+};
+
+template<typename T>
+struct segtree_sum : segtree_semi<T, fx::addition<T>>
+{
+    using segtree_semi<T, fx::addition<T>>::segtree_semi;
 };
 
 template<typename T>

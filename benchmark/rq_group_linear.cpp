@@ -31,6 +31,6 @@ void BM_RQGroup_RandomLinear(benchmark::State& state) {
 BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::baseline::semi_slow<int>)->Range(256, 32 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::rq_group<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::fenwick_tree<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::segtree_semi<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RQGroup_RandomLinear, seg::segtree_sum<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

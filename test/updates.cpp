@@ -157,7 +157,7 @@ TEST(PointFenwick, AddRefHandleAdd) {
 }
 
 TEST(PointSegtree, AddRefSet) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_point) {
         tester.set_call(p.first, p.second);
@@ -165,7 +165,7 @@ TEST(PointSegtree, AddRefSet) {
 }
 
 TEST(PointSegtree, AddRefHandleAssign) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_point) {
         tester.set_handle(p.first, p.second);
@@ -173,7 +173,7 @@ TEST(PointSegtree, AddRefHandleAssign) {
 }
 
 TEST(PointSegtree, AddRefHandleAdd) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_point) {
         tester.add_handle(p.first, p.second);
@@ -208,7 +208,7 @@ TEST(RangeFenwick, AddRefHandle) {
 }
 
 TEST(RangeSegtree, AddRefCall) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_range) {
         tester.add_call(std::get<0>(p), std::get<1>(p), std::get<2>(p));
@@ -216,7 +216,7 @@ TEST(RangeSegtree, AddRefCall) {
 }
 
 TEST(RangeSegtree, SetRefHandle) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_range) {
 //        tester.set_handle(std::get<0>(p), std::get<1>(p), std::get<2>(p));
@@ -225,7 +225,7 @@ TEST(RangeSegtree, SetRefHandle) {
 }
 
 TEST(RangeSegtree, AddRefHandle) {
-    update_tester<seg::segtree_semi<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_range) {
 //        tester.add_handle(std::get<0>(p), std::get<1>(p), std::get<2>(p));

@@ -47,10 +47,10 @@ void BM_PointElemSet_RandomConstant(benchmark::State& state) {
 
 BENCHMARK_TEMPLATE(BM_PointSet_RandomConstant, seg::baseline::semi_slow<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_PointSet_RandomConstant, seg::fenwick_tree<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_PointSet_RandomConstant, seg::segtree_semi<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_PointSet_RandomConstant, seg::segtree_sum<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_TEMPLATE(BM_PointElemSet_RandomConstant, seg::baseline::semi_slow<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_PointElemSet_RandomConstant, seg::fenwick_tree<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_PointElemSet_RandomConstant, seg::segtree_semi<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_PointElemSet_RandomConstant, seg::segtree_sum<int>)->Range(256, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
