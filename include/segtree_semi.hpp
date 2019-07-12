@@ -149,22 +149,13 @@ public:
 };
 
 template<typename T>
-struct segtree_sum : segtree_semi<T, fx::addition<T>>
-{
-    using segtree_semi<T, fx::addition<T>>::segtree_semi;
-};
+using segtree_sum = segtree_semi<T, fx::addition<T>>;
 
 template<typename T>
-struct segtree_min : segtree_semi<T, fx::semi_min<T>>
-{
-    using segtree_semi<T, fx::semi_min<T>>::segtree_semi;
-};
+using segtree_min = segtree_semi<T, fx::semi_min<T>>;
 
 template<typename T>
-struct segtree_max : segtree_semi<T, fx::semi_max<T>>
-{
-    using segtree_semi<T, fx::semi_max<T>>::segtree_semi;
-};
+using segtree_max = segtree_semi<T, fx::semi_max<T>>;
 
 }
 
