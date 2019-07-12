@@ -1,4 +1,5 @@
 #include <iostream>
+#include <baseline/semi_slow.hpp>
 
 #include "segtree_lazy.hpp"
 
@@ -59,7 +60,9 @@ int main(int argc, char** argv)
 //    ept<seg::fenwick_tree<int>>(xs);
 
 //    seg::segtree_lazy<int> hui(xs);
+
     seg::segtree_lazy<int> hui({ 0, 0, 0, 0, 0, 0, 0 });
+//    seg::baseline::semi_slow<int> hui({ 0, 0, 0, 0, 0, 0, 0 });
 
     print_some(hui);
 
@@ -87,6 +90,12 @@ int main(int argc, char** argv)
     hui[{ 2, 5 }] += -5;
     print_some(hui);
 
-    hui[{ 3, 4 }] += -11;
+    hui[{ 3, 5 }] = -11;
+    print_some(hui);
+
+    hui[{ 2, 5 }] += 11;
+    print_some(hui);
+
+    hui[{ 2, 5 }] += 0;
     print_some(hui);
 }

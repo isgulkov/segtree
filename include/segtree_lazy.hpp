@@ -29,6 +29,7 @@ private:
 
     mutable std::vector<value_type> xs_nodes;
     mutable std::vector<value_type> ds_nodes;
+    mutable std::vector<char> sets_nodes;
 
     template <typename InputIt>
     static const value_type& build_nodes(std::vector<value_type>& xs_nodes, const index_type i_node,
@@ -60,9 +61,9 @@ public:
 
         build_nodes(xs_nodes, 1, it_begin, it_end);
 
-        // TODO: This should be about half the size as leaf nodes don't need these values.
-
+        // TODO: These should be about half the size as leaf nodes don't ever need these values.
         ds_nodes.resize(xs_nodes.size(), Semi::id());
+        sets_nodes.resize(xs_nodes.size(), false);
     }
 
     index_type size() const
@@ -81,6 +82,15 @@ private:
         xs_nodes[i_node] = Semi::add(xs_nodes[i_node], Semi::multiply(delta, in_end - in_begin));
 
         ds_nodes[i_node] = delta;
+        sets_nodes[i_node] = false;
+    }
+
+    void _apply_value(const index_type in_begin, const index_type in_end, const index_type i_node, const value_type& x) const
+    {
+        xs_nodes[i_node] = Semi::multiply(x, in_end - in_begin);
+
+        ds_nodes[i_node] = x;
+        sets_nodes[i_node] = true;
     }
 
     void _push_changes(const index_type in_begin, const index_type in_end, const index_type i_node) const
@@ -90,17 +100,24 @@ private:
         if(l_node > 1) {
             const index_type i_mid = in_begin + (l_node + 1) / 2;
 
-            _apply_delta(in_begin, i_mid, i_node * 2, ds_nodes[i_node]);
-            _apply_delta(i_mid, in_end, i_node * 2 + 1, ds_nodes[i_node]);
+            if(sets_nodes[i_node]) {
+                _apply_value(in_begin, i_mid, i_node * 2, ds_nodes[i_node]);
+                _apply_value(i_mid, in_end, i_node * 2 + 1, ds_nodes[i_node]);
+            }
+            else {
+                _apply_delta(in_begin, i_mid, i_node * 2, ds_nodes[i_node]);
+                _apply_delta(i_mid, in_end, i_node * 2 + 1, ds_nodes[i_node]);
+            }
         }
 
         ds_nodes[i_node] = Semi::id();
+        sets_nodes[i_node] = false;
     }
 
     value_type _get(const index_type i_begin, const index_type i_end,
                     const index_type in_begin, const index_type in_end, const index_type i_node) const
     {
-        if(ds_nodes[i_node] != Semi::id()) {
+        if(sets_nodes[i_node] || ds_nodes[i_node] != Semi::id()) {
             _push_changes(in_begin, in_end, i_node);
         }
 
@@ -181,7 +198,30 @@ public:
     }
 
 private:
-    // ...
+    void _set(const index_type i_begin, const index_type i_end, const value_type& x,
+              const index_type in_begin, const index_type in_end, const index_type i_node)
+    {
+        if(i_begin == in_begin && i_end == in_end) {
+            _apply_value(in_begin, in_end, i_node, x);
+
+            return;
+        }
+
+        const index_type i_mid = in_begin + (in_end - in_begin + 1) / 2;
+
+        if(i_end <= i_mid) {
+            _set(i_begin, i_end, x, in_begin, i_mid, i_node * 2);
+        }
+        else if(i_mid <= i_begin) {
+            _set(i_begin, i_end, x, i_mid, in_end, i_node * 2 + 1);
+        }
+        else {
+            _set(i_begin, i_mid, x, in_begin, i_mid, i_node * 2);
+            _set(i_mid, i_end, x, i_mid, in_end, i_node * 2 + 1);
+        }
+
+        xs_nodes[i_node] = Semi::add(xs_nodes[i_node * 2], xs_nodes[i_node * 2 + 1]);
+    }
 
 public:
     segtree_lazy& set(const index_type i_begin, const index_type i_end, const value_type& x)
@@ -190,11 +230,7 @@ public:
         assert(i_end <= n);
         assert(i_begin < i_end);
 
-        // TODO!: Replace with a proper O(logn) update (a separate set of prop properties would be needed, it seems).
-
-        for(size_t i = i_begin; i < i_end; i++) {
-            set(i, x);
-        }
+        _set(i_begin, i_end, x, 0, n, 1);
 
         return *this;
     }
