@@ -32,6 +32,11 @@ target_link_libraries(test_rq_mode PRIVATE gtest gtest_main)
 add_executable(test_updates test/updates.cpp)
 target_link_libraries(test_updates PRIVATE gtest gtest_main)
 
+file(GLOB TEST_SRCS test/*.cpp)
+
+add_executable(test_all ${TEST_SRCS})
+target_link_libraries(test_all PRIVATE gtest gtest_main)
+
 #### Benchmarks ####
 
 set(BENCHMARK_ENABLE_TESTING OFF)

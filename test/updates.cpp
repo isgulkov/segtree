@@ -94,6 +94,7 @@ public:
     }
 };
 
+namespace {
 
 std::vector<int> xs_small = { -11, 9, 13, 24, -1, 23, 5, 11, 18, 18, -2, 16, 18, 3, 21, -10, 13, -3, 25, 22, -10, 1, 6, 16, 0 };
 std::vector<std::pair<size_t, int>> us_point = {
@@ -140,6 +141,8 @@ std::vector<std::tuple<size_t, size_t, int>> us_range = {
         { 19, 22, 18 },
         { 1, 23, 24 }
 };
+
+}
 
 TEST(PointFenwick, AddRefSet) {
     update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>> tester(xs_small);

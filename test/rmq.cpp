@@ -36,6 +36,8 @@ void assert_against_reference(const std::vector<typename Rmq::value_type>& xs)
     }
 }
 
+namespace {
+
 std::vector<int> xs_small = { -11, 9, 13, 24, -1, 23, 5, 11, 18, 18, -2, 16, 18, 3, 21, -10, 13, -3, 25, 22, -10, 1, 6, 16, 0 };
 std::vector<int> ys_small = { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0 };
 std::vector<int> xs_incs = ([]() {
@@ -47,6 +49,8 @@ std::vector<double> zs = { 0.23562345900933712, 0.921194171139331, -0.0927100101
                            -0.7494946492240331, -0.8944356230293231, 0.3469770608692895, -0.9862556258852617,
                            0.3723187193230091, -0.3749033717667052, 0.46787827703764706, -0.9965849031542593,
                            -0.5455637708111314, 0.9757643830812546, 0.9398363132695124 };
+
+}
 
 TEST(RmqSegtree, MinRefSmall) {
     assert_against_reference<seg::segtree_min<int>, seg::baseline::rmq_slow<int>>(xs_small);

@@ -37,6 +37,8 @@ void assert_against_reference(const std::vector<typename Rq::value_type>& xs)
     }
 }
 
+namespace {
+
 std::vector<int> xs_small = { -11, 9, 13, 24, -1, 23, 5, 11, 18, 18, -2, 16, 18, 3, 21, -10, 13, -3, 25, 22, -10, 1, 6, 16, 0 };
 std::vector<int> ys_small = { 1, -1, -1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1 };
 std::vector<int> xs_incs = ([]() {
@@ -44,6 +46,8 @@ std::vector<int> xs_incs = ([]() {
     for(int i = -10; i <= 10; i++) xs.push_back(i);
     return xs;
 })();
+
+}
 
 TEST(RqModeCompact, IntsRefMany) {
     assert_against_reference<seg::rq_mode_compact<int>, seg::baseline::rq_mode_slow<int>>(xs_small);
