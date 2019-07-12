@@ -82,21 +82,6 @@ public:
         return { *this, i };
     }
 
-    void update(const index_type i, std::function<value_type(const value_type&)> f)
-    {
-        /**
-         * TODO: benchmark the three point update interfaces:
-         *  - set(i, EXPR(get(i)));
-         *  - modify(i, std::function);
-         *  - assignment to an `elem_handle`.
-         */
-
-        assert(i >= 0);
-        assert(i < xs.size());
-
-        xs[i] = f(xs[i]);
-    }
-
     void set(const index_type i_begin, const index_type i_end, const value_type& x)
     {
         assert(i_begin >= 0);
