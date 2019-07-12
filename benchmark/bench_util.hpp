@@ -36,15 +36,23 @@ std::vector<int> random_ints_few(size_t n)
 std::vector<std::pair<int, int>> random_segments(size_t n, const size_t size)
 {
     std::mt19937 rng(std::random_device{}());
-    std::uniform_int_distribution<int> dist(0, size - 1);
+    std::uniform_int_distribution<int> dist(0, size);
 
     std::vector<std::pair<int, int>> ps;
     ps.reserve(n);
 
     while(n--) {
-        const int a = dist(rng), b = dist(rng);
+        int a = dist(rng), b;
 
-        ps.emplace_back(a, a + (b % (size - a) + 1));
+        do {
+            b = dist(rng);
+        } while(a == b);
+
+        if(a > b) {
+            std::swap(a, b);
+        }
+
+        ps.emplace_back(a, b);
     }
 
     return ps;
