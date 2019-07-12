@@ -8,7 +8,7 @@
 #include "segtree_semi.hpp"
 
 template<typename RMQ>
-void BM_RMQ_RandomLinear(benchmark::State& state) {
+void BM_RMQ_RandomConstant(benchmark::State& state) {
     std::vector<int> xs = random_ints_bin(state.range(0));
 
     RMQ rmq(xs);
@@ -29,9 +29,9 @@ void BM_RMQ_RandomLinear(benchmark::State& state) {
  *       values of N over ~32M.
  */
 
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::baseline::rmq_slow<int>)->Range(64, 32 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::rmq_fast<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::rmq_cartesian<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
-BENCHMARK_TEMPLATE(BM_RMQ_RandomLinear, seg::segtree_min<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomConstant, seg::baseline::rmq_slow<int>)->Range(64, 32 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomConstant, seg::rmq_fast<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomConstant, seg::rmq_cartesian<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_RMQ_RandomConstant, seg::segtree_min<int>)->Range(64, 4 * 1024 * 1024)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
