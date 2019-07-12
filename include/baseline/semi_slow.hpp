@@ -104,6 +104,17 @@ public:
 
         std::fill(xs.begin() + i_begin, xs.begin() + i_end, x);
     }
+
+    void add(const index_type i_begin, const index_type i_end, const value_type& y)
+    {
+        assert(i_begin >= 0);
+        assert(i_end <= xs.size());
+        assert(i_begin < i_end);
+
+        std::transform(xs.begin() + i_begin, xs.begin() + i_end, xs.begin() + i_begin, [&y](const auto& x) {
+            return Semi::add(x, y);
+        });
+    }
 };
 
 }
