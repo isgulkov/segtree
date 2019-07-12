@@ -54,3 +54,6 @@ target_link_libraries(bm_sqrt_ceil PRIVATE benchmark)
 
 add_executable(bm_rq_mode_constant benchmark/rq_mode_constant.cpp)
 target_link_libraries(bm_rq_mode_constant PRIVATE benchmark)
+
+add_executable(bm_point_updates benchmark/point_updates.cpp)
+target_link_libraries(bm_point_updates PRIVATE benchmark)

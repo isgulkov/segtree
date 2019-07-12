@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <cassert>
+#include <algorithm>
 
 #include "util/functions.hpp"
 #include "util/_elem_handle.hpp"
@@ -97,6 +98,15 @@ public:
         assert(i < xs.size());
 
         xs[i] = f(xs[i]);
+    }
+
+    void set(const size_t i_begin, const size_t i_end, const value_type& x)
+    {
+        assert(i_begin >= 0);
+        assert(i_end <= xs.size());
+        assert(i_begin < i_end);
+
+        std::fill(xs.begin() + i_begin, xs.begin() + i_end, x);
     }
 };
 

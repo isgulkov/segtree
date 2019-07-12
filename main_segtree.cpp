@@ -80,7 +80,7 @@ int main(int argc, char** argv)
 
     print_some(hui);
 
-    hui.update(4, [](auto x) { return x - 5; });
+    hui.set(0, 4, 7);
 
     print_some(hui);
 }
