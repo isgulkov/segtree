@@ -8,6 +8,7 @@
 
 #include "util/functions.hpp"
 #include "util/elem_handle.hpp"
+#include "util/range_handle.hpp"
 
 namespace seg::baseline {
 
@@ -114,6 +115,15 @@ public:
         std::transform(xs.begin() + i_begin, xs.begin() + i_end, xs.begin() + i_begin, [&y](const auto& x) {
             return Semi::add(x, y);
         });
+    }
+
+    util::range_handle<semi_slow> operator[](const std::pair<index_type, index_type> ix)
+    {
+        assert(ix.first >= 0);
+        assert(ix.second <= xs.size());
+        assert(ix.first < ix.secondd);
+
+        return { *this, ix.first, ix.second };
     }
 };
 

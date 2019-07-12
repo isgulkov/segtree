@@ -3,6 +3,7 @@
 #include "baseline/semi_slow.hpp"
 #include "fenwick_tree.hpp"
 #include "segtree_semi.hpp"
+#include "segtree_lazy.hpp"
 
 
 template<typename Rq, typename RqRef>
@@ -56,6 +57,14 @@ public:
     {
         rq[i] += x;
         rq_ref[i] += x;
+
+        assert_against_reference();
+    }
+
+    void set_call(const size_t i, const size_t j, const value_type& x)
+    {
+        rq.set(i, j, x);
+        rq_ref.set(i, j, x);
 
         assert_against_reference();
     }
@@ -180,6 +189,16 @@ TEST(PointSegtree, AddRefHandleAdd) {
     }
 }
 
+
+TEST(RangeFenwick, SetRefCall) {
+    update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+
+    for(const auto& p : us_range) {
+//        tester.set_call(std::get<0>(p), std::get<1>(p), std::get<2>(p));
+        FAIL() << "Not implemented";
+    }
+}
+
 TEST(RangeFenwick, AddRefCall) {
     update_tester<seg::fenwick_tree<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
@@ -207,8 +226,16 @@ TEST(RangeFenwick, AddRefHandle) {
     }
 }
 
+TEST(RangeSegtree, SetRefCall) {
+    update_tester<seg::segtree_lazy<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+
+    for(const auto& p : us_range) {
+        tester.set_call(std::get<0>(p), std::get<1>(p), std::get<2>(p));
+    }
+}
+
 TEST(RangeSegtree, AddRefCall) {
-    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_lazy<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_range) {
         tester.add_call(std::get<0>(p), std::get<1>(p), std::get<2>(p));
@@ -216,19 +243,17 @@ TEST(RangeSegtree, AddRefCall) {
 }
 
 TEST(RangeSegtree, SetRefHandle) {
-    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_lazy<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_range) {
-//        tester.set_handle(std::get<0>(p), std::get<1>(p), std::get<2>(p));
-        FAIL() << "Not implemented";
+        tester.set_handle(std::get<0>(p), std::get<1>(p), std::get<2>(p));
     }
 }
 
 TEST(RangeSegtree, AddRefHandle) {
-    update_tester<seg::segtree_sum<int>, seg::baseline::semi_slow<int>> tester(xs_small);
+    update_tester<seg::segtree_lazy<int>, seg::baseline::semi_slow<int>> tester(xs_small);
 
     for(const auto& p : us_range) {
-//        tester.add_handle(std::get<0>(p), std::get<1>(p), std::get<2>(p));
-        FAIL() << "Not implemented";
+        tester.add_handle(std::get<0>(p), std::get<1>(p), std::get<2>(p));
     }
 }
